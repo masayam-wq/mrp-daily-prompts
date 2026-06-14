@@ -1,0 +1,1125 @@
+# 2026-06-14 4ジャンル統合 医学論文スクリーニング
+
+このファイルは、PubMed/OpenAlexから自動取得した本日の医学論文候補を4ジャンル統合したものです。
+
+対象ジャンル：周産期 / 生殖 / 抗老化 / ダイエット・筋トレ
+
+あなたは医学文献スクリーニング担当のリサーチアナリストです。
+目的は公開済み医学文献の研究・情報整理であり、個別患者への診療判断・治療推奨ではありません。
+
+## 選定方針（最重要）
+順位付けの主軸は「臨床的インパクト」です。エビデンスレベルは従軸とし、同点時のタイブレークに用います。
+Core candidatesを優先し、Reserve candidatesに明らかに重要な論文がある場合のみ昇格してください。
+4ジャンルは同一基準でフラットに評価し、ジャンルによる重み付けは行わないでください。
+
+原則ちょうど12本を横断選定する。臨床的に重要なRCT・ガイドライン・メタアナリシス・大規模前向きコホートが多い日のみ最大20本まで許可。
+各ジャンル最低1本は含める。候補全体で明らかに選定に値するものが12本未満の場合のみ12本未満にしてよい。
+
+## 評価時の注意
+- 与えられた候補リスト内から選定し、リスト外の論文を新たに追加しないでください。
+- まず各候補を独立に臨床的インパクトで採点し、その後に上位を相互比較して横断順位を確定する2段階で評価してください。
+- 症例報告・動物実験のみ・代理指標のみ・利益相反が強くヒトデータが弱いものは原則低評価。
+- 抗老化・ダイエット筋トレでも、診療を変えうる大規模ヒト研究は周産期・生殖と同等に高く評価してよい。
+
+## ネタ枠
+- 「ネタ枠候補」がある場合、一般受け・話題化しやすい論文として最大3本まで別軸で取り上げてよい。
+- ネタ枠は過大評価せず、研究デザイン、ヒトデータかどうか、限界を必ず明記する。
+- ネタ枠は原則 deep_dive=false。大規模RCT、主要メタアナリシス、重要な安全性シグナルの場合のみ true にしてよい。
+
+## 実行指示
+確認質問をせず、以下の2部構成で最後まで出力してください。
+
+【第1部：human_readable_summary】
+ここだけは日本語で出力してください。Markdownの見出し記号（#, ##, ###）は使わず、通常文章で出力してください。
+構成は、1.今日の結論、2.最重要論文、3.ジャンル別要点、4.安全性・限界、5.次に見るべきこと、6.ウォッチキーワード、7.除外したが注意すべき論文、8.ネタ枠候補、の順。
+臨床助言ではなく、公開済み医学文献の研究・情報整理として記載してください。
+
+【第2部：machine_readable_summary】
+Apps Script取り込み用のJSON配列です。JSON配列の直前に machine_readable_summary: と書いてください。
+JSON配列は必ず [ で始まり ] で終わる有効なJSONにし、Markdown・コードブロック・コメント・末尾カンマを入れないでください。
+要素数は通常12個。重要論文が多い場合のみ13〜20個まで許可。各ジャンル最低1本。
+JSONのキー名は英語のままにしてください。
+
+各JSON objectには以下を可能な限り含めてください：
+genre, rank, clinical_impact_score, importance_level, pmid, doi, title, journal, pub_year, study_design, population, intervention, comparison, main_outcome, key_findings, importance_reason, clinical_relevance, novelty, evidence_strength, safety_notes, limitations, practice_change_potential, deep_dive, deep_dive_reason, next_action, watch_keywords, pubmed_url, oa_url, source_urls, perplexity_summary, trend_summary, future_outlook
+
+重要：clinical_impact_score は 0〜100 の整数で、臨床的インパクトのみを表す主軸スコア。rank はこの clinical_impact_score の降順で付与してください。
+evidence_strength は研究デザインとnとバイアスリスクに基づく従軸（例：high / moderate / low）。evidence_level は使わず evidence_strength に統一してください。
+deep_dive は true/false、deep_dive_reason はその理由。deep_dive=trueは原則2本、最大3本まで。
+第2部のJSON配列は必ず単独でJSON.parse可能な形式にしてください。
+
+---
+
+# 周産期
+
+## 周産期 Core candidates
+
+## 周産期 Core-1. Trajectories of depressive symptoms across pregnancy and the extended postpartum period and future cardiovascular health.
+
+- Candidate bucket: Core
+- 事前スコア: 4
+- PMID: 42282160
+- DOI: 10.64898/2026.05.26.26353833
+- Journal: medRxiv : the preprint server for health sciences
+- PubDate: 2026-06-02
+- PublicationType: Journal Article; Preprint
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42282160/
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND: Individuals diagnosed with depression during pregnancy are more likely to develop cardiovascular disease (CVD) later in life. However, it remains unclear whether subclinical depressive symptoms or symptom trajectories across time are associated with indicators of cardiovascular health (CVH). Therefore, the present study evaluated the relationship between longitudinal depressive symptom trajectories beginning in pregnancy and future CVH.
+METHODS: This secondary analysis of the multisite prospective nuMoM2b-Heart Health Study and included participants with complete longitudinal data from early pregnancy to 2-7 years post-delivery. Participants self-reported depressive symptoms using the Edinburgh Postnatal Depression Scale (EPDS) at 6-13 weeks gestation (early pregnancy), 22-29 weeks gestation (mid- to late-pregnancy), and 2-7 years post-delivery. Latent class mixture modeling was conducted to identify longitudinal patterns of depressive symptoms across early pregnancy, mid-late pregnancy, and extended postpartum follow-up. Structural equation modeling was used to test whether EPDS trajectories were associated with latent CVH, adjusted for length of follow-up interval, pre-pregnancy BMI, gravidity, adverse pregnancy outcomes, smoking history, age, education, income, and use of psychiatric medications.
+RESULTS: A total of 3,934 participants (mean (M) ± standard deviation (SD) age=27.6±5.6 years) met inclusion criteria with a mean follow-up interval of 3.2±0.9 years. A 4-class model, which provided the best fit to the EPDS data (mean posterior probability across classes=0.81), produced the following trajectories: (1) stable low (n=2412; 61.1%), (2) increasing severity (n=848; 21.5%), (3) decreasing severity (n=476; 12.1%), and (4) stable high (n=212; 5.4%). Compared to the stable low group, all groups exhibited significantly lower CVH (stable high: β=0.06, p<0.01; decreasing severity: β=0.05, p=0.02; increasing severity: β=0.08 p<0.01). Pairwise comparisons among the three elevated-symptom groups revealed no significant differences in latent CVH (all ps >0.24).
+DISCUSSION: The longitudinal course of depressive symptoms from pregnancy to 2-7 years post-delivery varied across individuals. Compared to those with consistently low depressive symptoms, individuals with higher severity symptoms at any point all exhibited lower CVH, regardless of the specifi
+
+## 周産期 Core-2. Serum sPD-L1 Levels in Early Pregnancy Predict Fetal Growth Restriction and Its Subtypes: A Prospective Nested Case-Control Study.
+
+- Candidate bucket: Core
+- 事前スコア: 3
+- PMID: 42278560
+- DOI: 10.3390/ijms27115037
+- Journal: International journal of molecular sciences
+- PubDate: 2026-06-02
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42278560/
+- OA URL: https://doi.org/10.3390/ijms27115037
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Fetal growth restriction (FGR) is a leading cause of perinatal morbidity and mortality, yet reliable first-trimester biomarkers for early prediction remain lacking. Growing evidence suggests that placental dysfunction is a central pathological driver of FGR. Therefore, placenta-derived proteins in maternal circulation may serve as mechanistically informative biomarkers for early detection. Here, we aimed to evaluate several placenta-relevant molecules as biomarkers for predicting isolated FGR and its subtypes. In this prospective nested case-control study, we included singleton pregnancies that underwent Down screening in the first trimester and were subsequently diagnosed with FGR (n = 50, including early-onset FGR [EFGR] and late-onset FGR [LFGR]) and healthy pregnancies (n = 100). Pregnancies with maternal comorbidities or fetal anomalies were excluded. Maternal serum protein concentrations were measured using ELISA kits. There were no significant differences in placenta-specific protein 1 (PLAC1) or netrin-1 between the two groups. By contrast, maternal soluble programmed death-ligand 1 (sPD-L1) levels were significantly lower in overall FGR ( < 0.001) and FGR subtypes ( = 0.002) than in controls. Circulating sPD-L1 levels were positively correlated with gestational age at delivery and birth weight Z score. Each one-unit increase in sPD-L1 was associated with lower odds of overall FGR (Odd ratio, OR 0.33), EFGR (OR 0.17), LFGR (OR 0.43), birth weight Z score 3-10% (OR 0.30), and neonatal intensive care unit (NICU) admission (OR 0.38). Moreover, first-trimester sPD-L1 predicted overall FGR (area under the receiver operating characteristic curve, AUC 0.75), EFGR (AUC 0.84), LFGR (AUC 0.70), birth weight Z score 3-10% (AUC 0.75), and NICU admission (AUC 0.67). Collectively, decreased maternal circulating sPD-L1 in early pregnancy may serve as a potential biomarker for isolated FGR, warranting validation in larger multicenter mechanistic studies.
+
+## 周産期 Core-3. Epigenetic mechanisms in preeclampsia: translational therapeutic strategies and precision-medicine perspectives.
+
+- Candidate bucket: Core
+- 事前スコア: -4
+- PMID: 42282229
+- DOI: 10.25122/jml-2026-0058
+- Journal: Journal of medicine and life
+- PubDate: 2026-04
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42282229/
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Preeclampsia is increasingly understood not only as a clinical syndrome of hypertension and organ dysfunction, but also as a disorder in which placental gene regulation, maternal vascular adaptation, and inflammatory signaling are shaped by abnormal epigenetic control. While several reviews have described epigenetic biomarkers in preeclampsia, the therapeutic implications of these mechanisms remain less clearly integrated. This review, therefore, focuses on the translational potential of epigenetic pathways as therapeutic entry points, with particular attention to DNA methylation, histone regulation, non-coding RNA networks, extracellular vesicle communication, and hypoxia-responsive placental signaling. Rather than treating these mechanisms solely as diagnostic signatures, the article evaluates how they may define molecular endotypes, identify pregnancies that could benefit from closer surveillance, and guide future interventions targeting upstream placental dysfunction. Potential strategies include selective modulation of DNMT and HDAC activity, microRNA inhibition or replacement, nutritional and environmental epigenetic optimization, placenta-oriented nanocarrier delivery, and pharmacogenomic stratification. The review also addresses the central barriers to translation, including tissue specificity, maternal-fetal safety, off-target epigenomic effects, ethical acceptability, long-term developmental consequences, and regulatory uncertainty. By reframing epigenetic alterations as actionable biological circuits rather than isolated biomarkers, this work provides a therapeutic and precision-medicine perspective on preeclampsia and outlines research priorities needed before epigenetic interventions can be responsibly evaluated in pregnancy.
+
+## 周産期 Core-4. Maternal palmitoleic acid supplementation attenuates neurodegenerative programming in aged offspring exposed to gestational diabetes.
+
+- Candidate bucket: Core
+- 事前スコア: -5
+- PMID: 42280391
+- DOI: 10.3390/nu18111748
+- Journal: Nutrients
+- PubDate: 2026-05-29
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280391/
+- OA URL: https://doi.org/10.3390/nu18111748
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Maternal hyperglycemia is associated with adverse neurodevelopmental outcomes in offspring; however, its long-term effects on brain aging remain unclear. This study investigated whether maternal hyperglycemia induces persistent molecular and behavioral alterations in aged male offspring and whether maternal palmitoleic acid supplementation exerts protective effects. The pregnant rats were divided into four groups: PCM, PDM, PDM/CPA, and PDM/TPA. Male offspring were analyzed at 48 weeks of age. Maternal hyperglycemia significantly increased cerebral RAGE expression (~1.6-fold) and tau phosphorylation (~1.8-fold), accompanied by reduced Akt phosphorylation, impaired Nrf2-related antioxidant responses, and increased inflammatory gene expression. These molecular alterations are associated with impaired recognition memory, as reflected by a marked reduction in the discrimination index in the novel object recognition test. Maternal CPA/TPA supplementation partially attenuated these abnormalities. These findings suggest that maternal hyperglycemia may induce long-lasting molecular alterations associated with neuroinflammation, impaired insulin-related signaling, and cognitive dysfunction in aged offspring. Maternal palmitoleic acid supplementation may partially mitigate the adverse developmental alterations associated with intrauterine hyperglycemic exposure.
+
+## 周産期 Core-5. Carrying the weight in silence: lived realities of epilepsy caregivers in Shai Osudoku and Ningo Prampram.
+
+- Candidate bucket: Core
+- 事前スコア: -7
+- PMID: 42284874
+- DOI: 10.1016/j.yebeh.2026.111159
+- Journal: Epilepsy & behavior : E&B
+- PubDate: 2026-06-12
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42284874/
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND: Epilepsy is a chronic neurological disorder often associated with stigma, misconceptions, and considerable caregiving responsibilities, particularly in low- and middle-income countries such as Ghana. Caregivers are vital yet frequently undervalued in epilepsy care, confronting emotional, social, and health system-related, access-related and financial barriers. This study explored the lived experiences of caregivers of individuals with epilepsy, highlighting their roles, the difficulties they encounter, and their coping strategies within sociocultural and healthcare contexts.
+METHODS: A qualitative study was conducted with 10 caregivers (5 males and 5 females) of people living with epilepsy in the Shai-Osudoku and Ningo-Prampram districts of Ghana. Participants, including mothers, fathers, and a wife, were purposively selected for in-depth interviews. Transcribed data were analyzed using reflexive thematic analysis with the support of NVivo software.
+RESULTS: Caregivers took on multiple roles, such as monitoring seizures, managing medications, coordinating care, and navigating diverse care systems, including biomedical, traditional, and spiritual treatment options. Their experiences were marked by emotional and psychological stress, ongoing fear and uncertainty, financial strain from out-of-pocket expenses, reduced income, and social exclusion due to stigma. Limited access to affordable healthcare and antiseizure medications further hindered their ability to seek care and maintain treatment continuity. Despite these obstacles and challenges, caregivers showed resilience through reliance on family support, religious coping strategies, and practical knowledge.
+CONCLUSION: The findings underscore the need for contextually grounded epilepsy care models that address the interplay of sociocultural beliefs, financial constraints, and barriers to healthcare access. Strengthening and improving caregiver support through accessible mental health services, targeted education, improved access to affordable antiseizure medications, and community-based stigma-reduction awareness initiatives is essential to reduce caregiver burden and improve continuity and quality of epilepsy care in Ghana and similar contexts.
+
+---
+
+# 生殖
+
+本日の新規候補なし。
+
+---
+
+# 抗老化
+
+## 抗老化 Core candidates
+
+## 抗老化 Core-1. Neurokinin pathway botanical antagonist for menopausal vasomotor symptoms: A randomized, double-blind, placebo-controlled study.
+
+- Candidate bucket: Core
+- 事前スコア: 2
+- PMID: 42284819
+- DOI: 10.1016/j.maturitas.2026.109023
+- Journal: Maturitas
+- PubDate: 2026-06-10
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42284819/
+- OA URL: https://doi.org/10.1016/j.maturitas.2026.109023
+- OpenAlex cited_by_count: 0
+
+Abstract:
+OBJECTIVE: Vasomotor symptoms (VMS) are a prevalent and disruptive manifestation of menopause, and many women prefer nonhormonal, nonpharmacologic treatment options. This study evaluated the efficacy of a patented multi-ingredient botanical neurokinin inhibitor (BNI) on VMS and other patient-reported outcome measures.
+STUDY DESIGN: A randomized, double-blind, placebo-controlled trial was performed in menopausal women with 5 or more moderate to severe hot flashes daily. Participants were enrolled from community medical practices in the United States and randomized to BNI or placebo for 12 weeks. BNI is a novel formulation of plant extracts that attenuates neurokinin receptor signaling in vivo.
+MAIN OUTCOME MEASURES: Primary endpoints were changes in daily VMS frequency and score on the Hot Flash Related Daily Interference Scale (HFRDIS). Secondary endpoints included changes in Menopause-Specific Quality of Life (MENQOL) and Pittsburgh Sleep Quality Index (PSQI). Serum estrogen and liver function were assessed in a subgroup of patients.
+RESULTS: Of 74 randomized participants, 68 completed the trial (BNI, n = 32; placebo, n = 36). BNI supplementation reduced VMS frequency by 2.2 hot flashes per day more than placebo (p = 0.003), corresponding to a 47.7% relative decrease. HFRDIS was improved in the BNI group (p = 0.037), with significant reduction on all subscales. No significant differences were observed in global menopause symptoms (MENQOL) or sleep quality (PSQI). No changes in serum estradiol or liver function abnormalities were detected. BNI was well tolerated, with no difference in adverse events between groups.
+CONCLUSION: A combination of botanically derived neurokinin inhibitors produces significant and sustained relief of vasomotor symptoms in menopausal women.
+CLINICALTRIALS: gov registration: NCT05813067.
+
+## 抗老化 Core-2. Efficacy and safety of SarogLItazar as an add-on medication to Metformin and lifestyle intervention in women with PolyCystic Ovary Syndrome (SLIM-PCOS trial): study protocol for a randomized, open-label, parallel group clinical trial.
+
+- Candidate bucket: Core
+- 事前スコア: -1
+- PMID: 42271514
+- DOI: 10.1186/s13063-026-09534-5
+- Journal: Trials
+- PubDate: 2026-06-11
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42271514/
+- OA URL: https://doi.org/10.1186/s13063-026-09534-5
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND: Emerging concepts on the role of insulin resistance (IR) in the pathogenesis of polycystic ovary syndrome (PCOS) have driven a shift in the therapeutic approach towards interventions targeting IR. SarogLItazar as an add-on to Metformin in PolyCystic Ovary Syndrome (SLIM-PCOS) trial aims to test the efficacy and safety of saroglitazar, a dual peroxisome proliferator-activated receptor (PPAR α/γ) agonist belonging to "glitazar" class of drugs, on top of metformin and lifestyle intervention in PCOS.
+METHODS: SLIM-PCOS is an investigator-initiated, randomized, open label, parallel group, superiority, clinical trial. Around 140 PCOS patients will be randomized in 1:1 ratio to either of the two study groups: Group A: tablet saroglitazar (4 mg daily) + tablet metformin (500 mg twice daily) + lifestyle intervention; and Group B: tablet metformin + lifestyle intervention. Lifestyle intervention will comprise of dietary intervention and physical activity. Treatment will be given for 24 weeks and post-treatment follow up done at 36 weeks. The primary outcome is to compare the change in serum sex hormone binding globulin (SHBG) levels at 24 weeks from baseline between the two groups. Secondary efficacy outcomes include clinical (anthropometry, hirsutism, menstrual cycles); metabolic and gonadal parameters (lipid profile, IR, ovarian hormones and androgens, metabolic syndrome); hepatic steatosis on transabdominal scan and quality of life. Safety outcomes include patient reported adverse events, hematological and biochemical safety parameters. Data will be analysed as per intention to treat (ITT) principle using validated statistical software. Two-tailed P-value < 0.05 will be considered statistically significant.
+DISCUSSION: SLIM-PCOS trial will provide evidence on the potential therapeutic application of saroglitazar in PCOS. Based on the study outcomes and the drug's mechanism of action, future studies may be planned to investigate into the role of this novel glitazar in PCOS patients having diabetes, dyslipidemia, non-alcoholic fatty liver disease and other associated co-morbidities.
+TRIAL REGISTRATION: Prospectively registered with the Clinical Trials Registry of India (Trial ID: CTRI/2025/09/094653); registered September 12, 2025. https://ctri.nic.in/Clinicaltrials/rmaindet.php?trialid=142027&EncHid=25944.27666&modid=1&compid=19.
+
+## 抗老化 Core-3. Molecular and Functional Interactions Between Cisplatin and Nicotinamide: A Combined Computational, Spectroscopic, and Biological Study.
+
+- Candidate bucket: Core
+- 事前スコア: -6
+- PMID: 42278515
+- DOI: 10.3390/ijms27114989
+- Journal: International journal of molecular sciences
+- PubDate: 2026-05-30
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42278515/
+- OA URL: https://doi.org/10.3390/ijms27114989
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Cisplatin remains a widely used anticancer agent; however, its effectiveness can be influenced by systemic toxicity, resistance mechanisms, and interactions with exogenous compounds. Nicotinamide (vitamin B3), an NAD precursor and a commonly used dietary supplement, is involved in cellular metabolism, redox homeostasis, and DNA repair pathways, which may potentially modulate the cellular responses to Platinum-based agents. Here, we combine chemical synthesis, computational studies, spectroscopic analysis, and biological assays to investigate the molecular and biological aspects of Cisplatin-Nicotinamide interactions. A novel -[Pt(NH)NicotinamideCl]NO complex was obtained and its structure analyzed. Density functional theory (DFT) calculations indicate a thermodynamically favorable coordination of Nicotinamide to the first hydrolysis product of Cisplatin (CisPt1) with binding energies comparable to those calculated for nucleobase coordination under the same theoretical conditions. In non-small cell lung cancer cell lines (A549 and PC-9), in vitro results suggest that Nicotinamide pre-treatment reduces Cisplatin cytotoxicity under specific experimental conditions, but the pre-formed complex does not exert anticancer effects. These data are consistent with a model in which Nicotinamide may interact with reactive Cisplatin species, potentially contributing to the reduced availability of reactive Platinum(II) species. This work provides mechanistic insight into potential drug-nutrient interactions involving Platinum-based chemotherapy and highlights the need for further investigation under clinically relevant conditions in the near future.
+
+## 抗老化 Core-4. Nutritional Regulation of Ovarian Bioenergetics: Implications for Reproductive Aging and Female Infertility.
+
+- Candidate bucket: Core
+- 事前スコア: -7
+- PMID: 42280416
+- DOI: 10.3390/nu18111773
+- Journal: Nutrients
+- PubDate: 2026-05-30
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280416/
+- OA URL: https://doi.org/10.3390/nu18111773
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Ovarian function is critically dependent on tightly coordinated cellular energy metabolism, which governs follicular development, oocyte competence, and reproductive longevity. Increasing evidence indicates that metabolic dysregulation, including mitochondrial dysfunction, oxidative imbalance, and impaired NAD metabolism, contributes to the pathophysiology of major ovarian disorders such as PCOS, ovarian aging, and DOR. In parallel, emerging studies suggest that nutritional factors influence ovarian function by modulating mitochondrial bioenergetics, redox homeostasis, and nutrient-sensing signaling pathways. This review summarizes current knowledge on the molecular basis of ovarian energy metabolism and its disruption in female reproductive disorders. We further discuss nutritional strategies targeting ovarian bioenergetics, including antioxidants, NAD precursors, mitochondrial cofactors, and dietary metabolic interventions. In addition, we highlight recent advances in metabolomics, microbiome research, epigenomics, and multi-omics integration that are shaping emerging nutrition-based approaches in reproductive medicine. Collectively, positioning ovarian metabolism at the center of nutritional reproductive research may provide a conceptual framework for understanding metabolic regulation in ovarian function and for guiding future research on reproductive health.
+
+## 抗老化 Core-5. Network pharmacology of Sijunzi decoction in pancreatic cancer.
+
+- Candidate bucket: Core
+- 事前スコア: -11
+- PMID: 42276825
+- DOI: 10.21037/cco-2025-1-174
+- Journal: Chinese clinical oncology
+- PubDate: 2026-05-28
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42276825/
+- OA URL: https://doi.org/10.21037/cco-2025-1-174
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND: Sijunzi decoction (SJZD) is a traditional Chinese medicine (TCM) commonly used for pancreatic ductal adenocarcinoma (PDAC), but its mechanisms remain unclear. This study investigates its molecular basis using network pharmacology and molecular docking.
+METHODS: Active compounds and targets of SJZD were identified via Traditional Chinese Medicine Systems Pharmacology (TCMSP) Database and Analysis Platform, and PDAC-related targets were retrieved from Online Mendelian Inheritance in Man (OMIM) and GeneCards. Protein-protein interaction (PPI) networks, Gene Ontology (GO)/Kyoto Encyclopedia of Genes and Genomes (KEGG) enrichment, and tissue distribution analyses were conducted. Molecular docking evaluated binding affinities between compounds and targets. The anti-PDAC effects of SJZD were evaluated in vitro using human pancreatic cancer cell lines (CFPAC-1 and MiaPaCa-2) and in vivo using a patient-derived xenograft (PDX) mouse model.
+RESULTS: SJZD comprises 131 compounds and 260 targets, with key targets such as AKT serine/threonine kinase 1 (AKT1), BCL2 associated agonist of cell death (BAD), BCL2 apoptosis regulator (BCL2), and tumor protein p53 ( TP53) identified through PPI analysis. Enrichment analyses highlighted the phosphatidylinositide 3-kinases (PI3K)/protein Kinase B (AKT)/mechanistic target of rapamycin kinase (mTOR) and apoptosis pathways as primary therapeutic mechanisms. SJZD exhibited cytotoxic effects against PDAC cells in vitro and suppressed tumor growth in vivo, with mechanistic analyses confirming its regulatory effects on the PI3K/AKT/mTOR and apoptosis pathways. Molecular docking revealed strong binding affinities, particularly for compounds targeting estrogen receptor 1 (ESR1) and estrogen receptor 2 (ESR2). These findings suggest that SJZD exerts anti-PDAC effects via multi-target modulation, primarily through inhibition of the PI3K/AKT/mTOR signaling axis, induction of apoptosis and autophagy, and anti-inflammatory activity. The involvement of classic compounds supports the rationale of its traditional use, while experimental validation provides a mechanistic foundation for future clinical development.
+CONCLUSIONS: This study clarifies the active components, targets, and mechanisms of SJZD in treating PDAC, offering insights into the therapeutic potential of TCM.
+
+---
+
+# ダイエット・筋トレ
+
+## ダイエット・筋トレ Core candidates
+
+## ダイエット・筋トレ Core-1. Effect of vegetarian diets on CRP: a systematic review and meta-analysis of randomized controlled trials in adults.
+
+- Candidate bucket: Core
+- 事前スコア: 9
+- PMID: 42265752
+- DOI: 10.1186/s40795-026-01335-y
+- Journal: BMC nutrition
+- PubDate: 2026-06-09
+- PublicationType: Journal Article; Systematic Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42265752/
+- OA URL: https://doi.org/10.1186/s40795-026-01335-y
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Growing evidence suggests vegetarian diets offer several advantages over omnivorous ones. Existing research has reported findings on adherence to various types of vegetarian diets and their effects on C-reactive protein (CRP) levels, but the results have been inconsistent. Current systematic review and meta-analysis of Randomized Controlled Trials (RCTs) was conducted to examine whether an association exists between vegetarian diets and C-reactive protein (CRP). Online databases: Scopus, ISI Web of Science, PubMed, and Google Scholar were searched up to December 2022. The trials were reviewed independently by two authors to select ≥ 3 weeks of RCTs that investigated the impacts of a vegetarian diet versus an omnivorous diet in adults. Studies without a control group, sufficient CRP data, non-adult populations, or combined interventions were excluded. Any discrepancy cases were consulted with an independent reviewer. We included ten RCTs that evaluated the effectiveness of various vegetarian diets (lacto, lacto-ovo, and vegan) on CRP. The meta-analysis of 11 eligible studies involving 545 participants, illustrated that vegetarian diets did not significantly change CRP levels in comparison to the control group (Weighted Mean Difference (WMD): -0.04, 95% CI: -0.23, 0.15; p = 0.683). They're existed homogeneity among the trials (Cochran's Q test, I2 = 0.0%, p = 0.610). The subgroup analyses for intervention type, baseline CRP, and trial duration did not show statistically significant effects. Using RoB 2, five of the ten included trials showed some concerns for overall risk of bias, while the remainder were at low risk. The present study did not reveal a significant beneficial effect, regarding following the vegetarian diets on CRP. Some limitations include CRP often reported as a secondary outcome, lack of blinding, sensitivity of results to individual studies, and variability in CRP measurement methods. Carefully structured trials are still needed to endorse the present results. Trial registration PROSPERO registration no. CRD42023397406.
+
+## ダイエット・筋トレ Core-2. Healthcare professionals' perception on weight management during postpartum: A systematic review of qualitative evidence.
+
+- Candidate bucket: Core
+- 事前スコア: 4
+- PMID: 42284655
+- DOI: 10.1016/j.srhc.2026.101240
+- Journal: Sexual & reproductive healthcare : official journal of the Swedish Association of Midwives
+- PubDate: 2026-06-07
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42284655/
+- OA URL: https://doi.org/10.1016/j.srhc.2026.101240
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND: Healthcare professionals' support has been identified as an important factor for postpartum weight management, but barriers and facilitators exist among healthcare professionals supporting postpartum women to achieve healthy weight.
+AIM: To explore healthcare professionals' perceptions of barriers and facilitators of postpartum weight management.
+METHODS: A systematic review and thematic synthesis of peer-reviewed qualitative studies was conducted. CINAHL, PubMed, EMBASE, PsycINFO, SCOPUS, and Web of Science databases were systematically searched from inception to 29th June 2025 to identify eligible published studies. The search was limited to peer-reviewed articles, with a focus on healthcare professionals' views regarding postpartum weight management. Data were extracted and thematically analysed, and identified themes were subsequently mapped onto the Capability, Opportunity, Motivation, and Behaviour (COMB) model.
+RESULTS: Four studies met the selection criteria. Within the capability domain, identified factors included limited awareness of postpartum weight management guidelines and deficits in postpartum weight management competencies. Within the opportunity domain, identified factors encompassed time constraints and competing clinical priorities, partner support, and the routine postnatal check opportunities. Within the motivation domain, identified factors included personal engagement in healthy lifestyle behaviours, professional role identity, regular follow-up and positive reinforcement, the sensitive nature of weight management discussions, and misconceptions regarding postpartum weight.
+CONCLUSION: The identified barriers and facilitators suggest that effective postpartum weight management interventions should be designed to address healthcare professionals' capability, opportunity, and motivation. The heterogeneity of study locations supports the potential transferability of these findings across diverse healthcare contexts.
+
+## ダイエット・筋トレ Core-3. Effects of foot-specific exercise with or without taping on navicular drop, foot posture, and plantar pressure: A randomized comparative trial.
+
+- Candidate bucket: Core
+- 事前スコア: 4
+- PMID: 42264830
+- DOI: 10.1016/j.jbmt.2026.04.023
+- Journal: Journal of bodywork and movement therapies
+- PubDate: 2026-07
+- PublicationType: Journal Article; Randomized Controlled Trial; Comparative Study
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42264830/
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND: Conservative interventions such as exercise and taping are used to improve foot posture and support the medial arch in flatfoot.
+METHODS: This study is a prospective, randomized comparative study. Thirty-four individuals aged 18-25 with bilateral flatfoot were randomly assigned to the foot-specific exercise (FSE) group or the FSE with taping (FSE + T) group. Both groups completed an 8-week FSE approach. The FSE + T group performed Theraband® exercises followed by augmented low-Dye (ALD) taping, while the FSE group completed the same exercises without taping. Follow-up measurements were taken at week 12, one month after the exercise program. Assessments included the Navicular Drop Test (NDT), Foot Posture Index-6 (FPI-6), and static plantar pressure measurements at baseline, week 8, and week 12.
+RESULTS: No significant differences were observed between the groups in FPI-6, NDT, or plantar pressure parameters. Both groups showed significant reductions in the API-6 and NDT values at weeks 8 and 12 compared to pre-intervention (p < 0.05). In the medial and lateral heel regions, significant increases in force, peak force, contact pressure, and peak contact pressure were observed at the 12th week compared to pre-intervention (p < 0.05). In the toe regions, significant reductions in force, peak force, contact area, contact pressure, and peak contact pressure were seen at weeks 8 and 12 (p < 0.05).
+CONCLUSION: Both the FSE approach and the combination of FSE with ALD taping similarly improved foot posture, reduced navicular drop, and influenced plantar pressure distribution, with effects maintained over a one-month follow-up.
+
+## ダイエット・筋トレ Core-4. Recruitment and Retention of Rural-Dwelling Young Adults into a Digital Healthy Eating Intervention: Lessons Learned from a Randomized Controlled Trial of the Study.
+
+- Candidate bucket: Core
+- 事前スコア: -3
+- PMID: 42280290
+- DOI: 10.3390/nu18111646
+- Journal: Nutrients
+- PubDate: 2026-05-22
+- PublicationType: Journal Article; Randomized Controlled Trial
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280290/
+- OA URL: https://doi.org/10.3390/nu18111646
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND/OBJECTIVES: The study aimed to identify the key methodological challenges and solutions related to recruitment and retention of rural-dwelling young adults into a randomized controlled trial that tests the feasibility of a digital healthy eating intervention ().
+METHODS: Digital registration for a 12-week study was set up as a one-step process without researcher involvement. Participant registrations and recruitment rates were monitored daily using predetermined online preventative measures to identify fraudulent responses and to amend the digital registration process where necessary. Retention rates were monitored daily to identify any necessary amendments to the follow-up protocol.
+RESULTS: During data collection, = 279 fraudulent responses were identified from = 536 total responses (52%). One month into recruitment, amendments were made to the registration process to reduce fraudulent responses. To address bot attacks, Qualtrics passwords and a two-factor authentication process were added to the landing page. Targeted recruitment strategies, such as unpaid social media posts, corresponded to peaks in recruitment. In the final recruitment month, a question was embedded within follow-up correspondence to encourage completion of the post-intervention survey. This resulted in an additional = 8 (7%) participants completing the intervention.
+CONCLUSIONS: Empirical observations made in this study suggest that digital recruitment protocols without direct researcher involvement should consider multiple in-built strategies for identifying and preventing fraudulent responses. This includes a two-factor authentication process and minimizing the over-promotion of financial incentives in recruitment strategies. Recruitment strategies should consider the use of social media posts in local community groups, while the use of reminders and notifications could support retention.
+
+---
+
+
+## ネタ枠候補（一般受け・話題化しやすい論文）
+
+- この枠は、筋トレ・ダイエット・抗老化領域のうち、一般読者にも話題化しやすい候補です。
+- 臨床的重要論文Top12とは別軸です。採用する場合も、過大評価せず、研究デザインと限界を明記してください。
+- サプリ、動物実験、細胞実験、短期小規模研究は話題性があっても慎重に扱ってください。
+
+### Interesting-1. Effect of vegetarian diets on CRP: a systematic review and meta-analysis of randomized controlled trials in adults.
+- Genre: ダイエット・筋トレ
+- Interesting topic score: 9
+- Quality score: 9
+- PMID: 42265752
+- DOI: 10.1186/s40795-026-01335-y
+- Journal: BMC nutrition
+- Pub date: 2026-06-09
+- Publication types: Journal Article; Systematic Review
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42265752/
+- Abstract: Growing evidence suggests vegetarian diets offer several advantages over omnivorous ones. Existing research has reported findings on adherence to various types of vegetarian diets and their effects on C-reactive protein (CRP) levels, but the results have been inconsistent. Current systematic review and meta-analysis of Randomized Controlled Trials (RCTs) was conducted to examine whether an association exists between vegetarian diets and C-reactive protein (CRP). Online databases: Scopus, ISI Web of Science, PubMed, and Google Scholar were searched up to December 2022. The trials were reviewed independently by two authors to select ≥ 3 weeks of RCTs that investigated the impacts of a vegetarian diet versus an omnivorous diet in adults. Studies without a control group, sufficient CRP data, non-adult populations, or combined interventions were excluded. Any discrepancy cases were consulted with an independent reviewer. We included ten RCTs that evaluated the effectiveness of various vegetarian diets (lacto, lacto-ovo, and vegan) on CRP. The meta-analysis of 11 eligible studies involving 545 participants, illustrated that vegetarian diets did not significantly change CRP levels in comparison to the control group (Weighted Mean Difference (WMD): -0.04, 95% CI: -0.23, 0.15; p = 0.683). They're existed homogeneity among the trials (Cochran's Q test, I2 = 0.0%, p = 0.610). The subgroup analyses for intervention type, baseline CRP, and trial duration did not show statistically significant effects. Using RoB 2, five of the ten included trials showed some concerns for overall risk of bias, while the remainder were at low risk. The present study did not reveal a significant beneficial effect, regarding following the vegetarian diets on CRP. Some limitations include CRP often reported as a secondary outcome, lack of blinding, sensitivity of results to individual studies, and variability in CRP measurement methods. Carefully structured trials are still needed to endorse the present results. Trial registration PROSPERO registration no. CRD42023397406.
+
+### Interesting-2. Neurokinin pathway botanical antagonist for menopausal vasomotor symptoms: A randomized, double-blind, placebo-controlled study.
+- Genre: 抗老化
+- Interesting topic score: 7
+- Quality score: 2
+- PMID: 42284819
+- DOI: 10.1016/j.maturitas.2026.109023
+- Journal: Maturitas
+- Pub date: 2026-06-10
+- Publication types: Journal Article
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42284819/
+- Abstract: OBJECTIVE: Vasomotor symptoms (VMS) are a prevalent and disruptive manifestation of menopause, and many women prefer nonhormonal, nonpharmacologic treatment options. This study evaluated the efficacy of a patented multi-ingredient botanical neurokinin inhibitor (BNI) on VMS and other patient-reported outcome measures.
+STUDY DESIGN: A randomized, double-blind, placebo-controlled trial was performed in menopausal women with 5 or more moderate to severe hot flashes daily. Participants were enrolled from community medical practices in the United States and randomized to BNI or placebo for 12 weeks. BNI is a novel formulation of plant extracts that attenuates neurokinin receptor signaling in vivo.
+MAIN OUTCOME MEASURES: Primary endpoints were changes in daily VMS frequency and score on the Hot Flash Related Daily Interference Scale (HFRDIS). Secondary endpoints included changes in Menopause-Specific Quality of Life (MENQOL) and Pittsburgh Sleep Quality Index (PSQI). Serum estrogen and liver function were assessed in a subgroup of patients.
+RESULTS: Of 74 randomized participants, 68 completed the trial (BNI, n = 32; placebo, n = 36). BNI supplementation reduced VMS frequency by 2.2 hot flashes per day more than placebo (p = 0.003), corresponding to a 47.7% relative decrease. HFRDIS was improved in the BNI group (p = 0.037), with significant reduction on all subscales. No significant differences were observed in global menopause symptoms (MENQOL) or sleep quality (PSQI). No changes in serum estradiol or liver function abnormalities were detected. BNI was well tolerated, with no difference in adverse events between groups.
+CONCLUSION: A combination of botanically derived neurokinin inhibitors produces significant and sustained relief of vasomotor symptoms in menopausal women.
+CLINICALTRIALS: gov registration: NCT05813067.
+
+### Interesting-3. Healthcare professionals' perception on weight management during postpartum: A systematic review of qualitative evidence.
+- Genre: ダイエット・筋トレ
+- Interesting topic score: 6
+- Quality score: 4
+- PMID: 42284655
+- DOI: 10.1016/j.srhc.2026.101240
+- Journal: Sexual & reproductive healthcare : official journal of the Swedish Association of Midwives
+- Pub date: 2026-06-07
+- Publication types: Journal Article; Review
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42284655/
+- Abstract: BACKGROUND: Healthcare professionals' support has been identified as an important factor for postpartum weight management, but barriers and facilitators exist among healthcare professionals supporting postpartum women to achieve healthy weight.
+AIM: To explore healthcare professionals' perceptions of barriers and facilitators of postpartum weight management.
+METHODS: A systematic review and thematic synthesis of peer-reviewed qualitative studies was conducted. CINAHL, PubMed, EMBASE, PsycINFO, SCOPUS, and Web of Science databases were systematically searched from inception to 29th June 2025 to identify eligible published studies. The search was limited to peer-reviewed articles, with a focus on healthcare professionals' views regarding postpartum weight management. Data were extracted and thematically analysed, and identified themes were subsequently mapped onto the Capability, Opportunity, Motivation, and Behaviour (COMB) model.
+RESULTS: Four studies met the selection criteria. Within the capability domain, identified factors included limited awareness of postpartum weight management guidelines and deficits in postpartum weight management competencies. Within the opportunity domain, identified factors encompassed time constraints and competing clinical priorities, partner support, and the routine postnatal check opportunities. Within the motivation domain, identified factors included personal engagement in healthy lifestyle behaviours, professional role identity, regular follow-up and positive reinforcement, the sensitive nature of weight management discussions, and misconceptions regarding postpartum weight.
+CONCLUSION: The identified barriers and facilitators suggest that effective postpartum weight management interventions should be designed to address healthcare professionals' capability, opportunity, and motivation. The heterogeneity of study locations supports the potential transferability of these findings across diverse healthcare contexts.
+
+
+---
+
+# RESEARCH MEMORY
+
+以下は過去に重要と評価された論文メモリです。
+本日の新規論文評価時には、過去トレンドとの差分、新規性、矛盾、継続テーマを考慮してください。
+
+# Research Memory: 全ジャンル統合
+
+これは過去に重要と評価された医学論文DBです。
+新規論文評価時には、過去トレンドとの比較、新規性、矛盾、進展を分析してください。
+
+注意：本ファイルは公開済み医学文献の研究・情報整理目的であり、個別患者への診療判断・治療推奨ではありません。
+
+## 1. Effects of maximal versus submaximal intended velocity resistance training on muscular fitness adaptations in older adults: A systematic review and meta-analysis.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 1
+- Score: 58
+- Importance level: 中
+- PMID: 42282453
+- DOI: 10.1016/j.smhs.2026.03.001
+- Journal: Sports medicine and health science
+- Pub year: 2026
+- Study design: システマティックレビュー・メタアナリシス（RCT15件・GRADE評価）
+- Population: 60歳以上の高齢者（16研究801例；うち15件が中等度の質のRCT）
+- Intervention: レジスタンストレーニング；意図的運動速度（マキシマル速度MaxV vs サブマキシマル速度SubmaxV）
+- Comparison: 対照（非運動）および運動速度・負荷強度・頻度のサブグループ比較
+- Main outcome: 筋量；筋力；機能的パフォーマンス（Hedges g）
+- Key findings: レジスタンストレーニングは筋量SMD0.16；筋力SMD0.55；機能的パフォーマンスSMD0.76を改善；筋量と筋力はSubmaxVが、機能的パフォーマンスはMaxVが優位；負荷強度・頻度・速度が効果を修飾
+- Importance reason: 高齢者のサルコペニア予防・運動処方を具体化できるSR/MAで、運動速度の最適化という実装可能な処方変数を示した点
+- Clinical relevance: 高齢者の筋量・筋力・身体機能を目的別に高める運動処方設計の参考になる
+- Novelty: 運動速度の意図（MaxV vs SubmaxV）でアウトカム別の最適化を示した点
+- Evidence strength: moderate
+- Safety notes: 非侵襲的運動介入で安全性懸念は小さいが、個別の運動禁忌評価は必要
+- Limitations: 対象15RCTが中等度の質；効果量は中程度；異質性あり（機能的パフォーマンスI二乗62%）
+- Practice change potential: 中（高齢者運動処方の方向性を支持）
+- Next action: 全文でサブグループ別の効果量・異質性・長期アドヒアランスを確認する
+- Watch keywords: resistance training velocity older adults, sarcopenia exercise prescription, maximal versus submaximal velocity, muscle mass strength meta-analysis
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42282453/
+- OA URL: https://doi.org/10.1016/j.smhs.2026.03.001
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42282453/, https://doi.org/10.1016/j.smhs.2026.03.001
+- Summary: 高齢者60歳以上を対象とした16研究801例のSR/MA。レジスタンストレーニングが筋量・筋力・機能的パフォーマンスを改善し、筋量筋力にはSubmaxV、機能にはMaxVが有利と示した。運動速度の最適化を提示。
+- Trend summary: 高齢者のサルコペニア予防における運動変数（速度・強度・頻度）の最適化研究が活発化している。
+- Future outlook: 速度・強度・頻度を直接比較する大規模RCTと長期機能アウトカムの検証が期待される。
+- Deep dive: true
+- Deep dive reason: 本日最大の臨床インパクト候補で、運動速度別の処方最適化がサルコペニア予防の実装判断に直結するため
+
+## 2. Optimal exercise modality and dose to improve depression in children and adolescents: a systematic review and Bayesian network meta-analysis.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 2
+- Score: 52
+- Importance level: 中
+- PMID: 42266770
+- DOI: 10.3389/fpsyg.2026.1847609
+- Journal: Frontiers in psychology
+- Pub year: 2026
+- Study design: システマティックレビュー・ベイズ流ネットワークメタアナリシス（RCT26件）
+- Population: 小児・思春期（26RCT・3507例）
+- Intervention: 運動様式別介入（グループトレーニング；有酸素運動；混合；心身運動）と用量
+- Comparison: 運動様式間および用量反応比較
+- Main outcome: 抑うつ症状（SMD）
+- Key findings: グループトレーニングSMD-1.58、有酸素運動SMD-0.60が有効；非線形用量反応で治療窓は360〜980 METs分／週、ピークは660 METs分／週
+- Importance reason: 小児思春期のうつに対する運動の至適様式と用量を定量化し、低用量開始・適度維持の処方戦略を支持する
+- Clinical relevance: 若年層のメンタルヘルス支援における運動処方の参考になる
+- Novelty: ベイズ流ネットワークメタで非線形用量反応の治療窓を推定した点
+- Evidence strength: moderate
+- Safety notes: 非侵襲的運動介入で安全性懸念は小さい
+- Limitations: 研究間異質性大；自己報告アウトカム；結果は慎重な解釈が必要
+- Practice change potential: 中（若年層の運動処方の方向性を支持）
+- Next action: 全文で各様式の確実性評価と異質性の要因を確認する
+- Watch keywords: exercise depression children adolescents, network meta-analysis dose-response, group training aerobic exercise, METs-min depression
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42266770/
+- OA URL: https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1847609/pdf
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42266770/, https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1847609/pdf
+- Summary: 小児思春期26RCT・3507例のベイズ流ネットワークメタ。グループトレーニングと有酸素運動が抑うつ改善に有効で、治療窓は週360〜980 METs分と推定。異質性が大きく解釈は慎重に。
+- Trend summary: 若年層のメンタルヘルスに対する運動の至適様式・用量の定量化研究が進んでいる。
+- Future outlook: 高品質RCTによる様式別効果の確証と用量反応の精緻化が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 3. Frailty Trajectories and Incident Stroke Risk in People Aged 50 and Older: A Three-Cohort Prospective Analysis.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 3
+- Score: 50
+- Importance level: 中
+- PMID: 42284263
+- DOI: 10.1159/000552838
+- Journal: Neuroepidemiology
+- Pub year: 2026
+- Study design: 前向きコホート（3コホート統合・潜在クラス混合モデル・Cox）
+- Population: 50歳以上の成人（ELSA・HRS・CHARLSの3コホート19,666例）
+- Intervention: フレイル軌跡（deficit-accumulation frailty index）の分類
+- Comparison: Low軌跡群 vs Moderate群 vs Increasing-to-high群
+- Main outcome: 脳卒中発症（自己報告医師診断）
+- Key findings: 中央値追跡7.5年で1,131件の脳卒中；Low群比でModerate群HR2.05、Increasing-to-high群HR3.51；3コホートで方向一貫
+- Importance reason: フレイル軌跡という縦断指標が脳卒中発症と強く関連し、リスク層別化と予防対象同定に資する大規模前向き研究
+- Clinical relevance: 高齢者のフレイル経時モニタリングを脳卒中リスク評価に組み込む根拠
+- Novelty: 3つの代表的コホートを統合しフレイル軌跡と脳卒中を解析した点
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 自己報告の脳卒中診断；観察研究で因果不明；残存交絡
+- Practice change potential: 中（フレイルモニタリングのリスク層別化を支持）
+- Next action: フレイル改善介入が脳卒中発症を減らすかの介入研究を追跡する
+- Watch keywords: frailty trajectory stroke, deficit accumulation frailty index, three-cohort prospective, frailty monitoring risk
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42284263/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42284263/
+- Summary: 50歳以上19,666例・3コホート前向き解析。フレイル軌跡の悪化が脳卒中発症と強く関連（増加群HR3.51）。フレイル縦断モニタリングのリスク層別化価値を示す。
+- Trend summary: フレイルを静的指標でなく縦断軌跡で捉え、心血管・脳血管アウトカムと関連づける研究が拡大している。
+- Future outlook: フレイル改善介入による脳卒中予防効果の検証が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 4. Effect of Time-Restricted Eating on Metabolic Adaptation in Adults With Severe Obesity During Early Phase of Weight Loss.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 4
+- Score: 48
+- Importance level: 中
+- PMID: 42277575
+- DOI: 10.1111/jhn.70293
+- Journal: Journal of human nutrition and dietetics
+- Pub year: 2026
+- Study design: 無作為化比較試験（RCT）
+- Population: 重度肥満（BMI40超）の成人20〜60歳
+- Intervention: 時間制限食併用エネルギー制限（TRE＋ER；10時〜18時の摂食窓）
+- Comparison: 連続的エネルギー制限（CER）
+- Main outcome: 安静時代謝率（RMR）；早期適応的熱産生（AT）；ホルモン・食欲
+- Key findings: 1週後のRMRは両群同等；早期ATはTRE＋ER群で有意に小さい（-13対-83 kcal、p=0.038）；空腹感はCER群のみ増加
+- Importance reason: 重度肥満の減量初期に時間制限食が適応的熱産生をわずかに抑制する可能性を示したRCTだが、RMR差には至らず臨床的意義は限定的
+- Clinical relevance: 減量プログラム設計における時間制限食の位置づけの参考になる
+- Novelty: 重度肥満の減量初期における適応的熱産生をTREで評価した点
+- Evidence strength: moderate
+- Safety notes: 短期の代謝指標評価で安全性懸念は小さいが長期データなし
+- Limitations: 1週間の短期評価；RMR差なし；臨床的に意味ある長期効果は未確認
+- Practice change potential: 低〜中（長期検証待ち）
+- Next action: TREの長期体重・代謝アウトカムを検証するRCTを追跡する
+- Watch keywords: time-restricted eating obesity, adaptive thermogenesis weight loss, resting metabolic rate RCT, severe obesity diet
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42277575/
+- OA URL: https://doi.org/10.1111/jhn.70293
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42277575/, https://doi.org/10.1111/jhn.70293
+- Summary: 重度肥満100例のRCT。時間制限食併用が減量初期の適応的熱産生をわずかに抑制したが、1週後のRMRやホルモン・食欲には有意差なし。長期的臨床意義は要検証。
+- Trend summary: 時間制限食の代謝適応への影響を機序レベルで評価する研究が増えている。
+- Future outlook: 長期の体重維持と代謝アウトカムを評価する大規模RCTが期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 5. Changes in Sarcopenia and Incident Depression in Prospective Cohorts.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 5
+- Score: 46
+- Importance level: 中
+- PMID: 42278879
+- DOI: 10.3390/jcm15114015
+- Journal: Journal of clinical medicine
+- Pub year: 2026
+- Study design: 前向きコホート（CHARLS・AWGS2019基準・Cox）
+- Population: 中国の中高年（CHARLS；ベースライン2011年と2013年の変化を評価）
+- Intervention: サルコペニア状態の変化（非→可能性→サルコペニア）の評価
+- Comparison: 非サルコペニア維持群 vs 進行群 vs 回復群
+- Main outcome: 抑うつ発症（CESD-10≧10）
+- Key findings: サルコペニア進行群は抑うつリスク上昇（HR1.30）；回復群は持続サルコペニアより低リスク（HR0.65）
+- Importance reason: サルコペニアの動的変化と抑うつ発症の双方向的関連を示し、筋量改善の精神的ベネフィットを示唆
+- Clinical relevance: 高齢者の筋量管理を抑うつ予防の観点で位置づける参考になる
+- Novelty: 単回でなくサルコペニアの状態遷移と抑うつを評価した点
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 観察研究で因果不明；抑うつは尺度ベース；残存交絡
+- Practice change potential: 低〜中（仮説支持段階）
+- Next action: サルコペニア改善介入が抑うつを減らすかの介入研究を追跡する
+- Watch keywords: sarcopenia change depression, AWGS 2019 sarcopenia, CHARLS cohort, muscle mass mental health
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42278879/
+- OA URL: https://doi.org/10.3390/jcm15114015
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42278879/, https://doi.org/10.3390/jcm15114015
+- Summary: CHARLSコホートでサルコペニア状態の変化と抑うつ発症を解析。進行でHR1.30、回復でHR0.65と双方向的関連。筋量改善の精神的ベネフィットを示唆するが因果は不明。
+- Trend summary: サルコペニアを動的に捉え精神・身体アウトカムと関連づける研究が拡大している。
+- Future outlook: サルコペニア改善介入の抑うつ予防効果を検証する介入研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 6. Acute Cytokine Responses to High-Intensity Intermittent Exercise in Humans: A Systematic Review.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 6
+- Score: 38
+- Importance level: 中
+- PMID: 42278474
+- DOI: 10.3390/ijms27114950
+- Journal: International journal of molecular sciences
+- Pub year: 2026
+- Study design: システマティックレビュー（45研究・ナラティブ統合）
+- Population: 高強度間欠運動を行うヒト（45研究）
+- Intervention: 単回の高強度間欠運動セッション
+- Comparison: 運動前後のサイトカイン比較
+- Main outcome: 血中サイトカイン（IL-6・TNFα・IL-10等）の急性変化
+- Key findings: IL-6が最も一貫して上昇；TNFα・IL-10は文脈依存で混在；サンプリング窓・運動量・表現型が主な修飾因子
+- Importance reason: 高強度間欠運動の急性炎症・マイオカイン応答を体系化したが、代理指標中心で臨床アウトカムへの直結は弱い
+- Clinical relevance: 運動の炎症応答評価における方法論的留意点の参考になる
+- Novelty: 高強度間欠運動のサイトカイン応答を系統的に統合した点
+- Evidence strength: low
+- Safety notes: 特記なし
+- Limitations: ナラティブ統合；多くの研究でバイアス懸念（some concerns）；代理指標中心
+- Practice change potential: 低（機序・代理指標段階）
+- Next action: サンプリング窓・運動量を標準化した前向き研究を追跡する
+- Watch keywords: high-intensity intermittent exercise cytokine, IL-6 myokine exercise, acute inflammation exercise, TNF-alpha IL-10 exercise
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42278474/
+- OA URL: https://doi.org/10.3390/ijms27114950
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42278474/, https://doi.org/10.3390/ijms27114950
+- Summary: ヒト45研究の系統的レビュー。高強度間欠運動後はIL-6が一貫して上昇する一過性のマイオカイン優位炎症シグナルを示すが、他のサイトカインは文脈依存。代理指標中心で臨床意義は限定的。
+- Trend summary: 運動の急性炎症・マイオカイン応答を標準化して評価する研究が進んでいる。
+- Future outlook: サンプリングと運動量を標準化した前向き研究で応答の決定因子の確証が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 7. Comparison of count-based and clustering definitions of multimorbidity and their association with prevalence, health profiles, and mortality: A cohort study of UK Biobank participants.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 7
+- Score: 35
+- Importance level: 中
+- PMID: 42284367
+- DOI: 10.1371/journal.pmed.1004914
+- Journal: PLoS medicine
+- Pub year: 2026
+- Study design: コホート研究（UK Biobank・定義比較）
+- Population: UK Biobank参加者（474,397例、2006〜2010年）
+- Intervention: マルチモビディティの6つのカウント定義とクラスタリング定義の比較
+- Comparison: 定義間の有病率・健康プロファイル・死亡率の比較
+- Main outcome: 有病率；3年・10年死亡リスク；健康指標・血液指標
+- Key findings: 有病率は定義により1.0%〜35.3%と大きく変動；高閾値ほど重症プロファイルだが死亡リスクは必ずしも高くない；クラスタリングは低有病率高死亡群を同定
+- Importance reason: マルチモビディティの操作的定義が有病率・予後推定を大きく左右することを示し、加齢人口の研究・政策設計に影響する基盤的知見
+- Clinical relevance: マルチモビディティ研究の解釈と定義選択の参考になるが診療を直接変えるものではない
+- Novelty: 複数のカウント定義とクラスタリングを同一大規模コホートで横断比較した点
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: UK Biobankの選択バイアス；一部指標が横断的；一般化に限界
+- Practice change potential: 低〜中（研究・政策基盤向け）
+- Next action: 標準化されたマルチモビディティ定義の合意形成の動向を追跡する
+- Watch keywords: multimorbidity definition, UK Biobank mortality, clustering count-based multimorbidity, aging population health
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42284367/
+- OA URL: https://doi.org/10.1371/journal.pmed.1004914
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42284367/, https://doi.org/10.1371/journal.pmed.1004914
+- Summary: UK Biobank474,397例のコホート研究。マルチモビディティの定義により有病率が1.0〜35.3%と大きく変わり死亡リスクとの関連も異なることを示した。研究・政策設計の基盤的知見。
+- Trend summary: マルチモビディティの定義標準化と表現型分類の方法論研究が活発化している。
+- Future outlook: 合意された定義に基づく予後予測と介入標的の精緻化が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 8. Associations between dietary food categories, epigenetic age acceleration and low-grade inflammation in the Lifelines-DEEP cohort.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 8
+- Score: 22
+- Importance level: 低
+- PMID: 42263547
+- DOI: 10.1016/j.clnu.2026.106703
+- Journal: Clinical nutrition
+- Pub year: 2026
+- Study design: 横断的コホート解析（メディエーション解析）
+- Population: Lifelines-DEEPコホート691例
+- Intervention: 食事の質・炎症性食事成分の評価（FFQ）
+- Comparison: 食事の質・食品カテゴリ別のエピジェネティック年齢加速（EAA）比較
+- Main outcome: EAA（PCPhenoAge・PCGrimAge・DunedinPACE）；低悪性度炎症の媒介
+- Key findings: 食事の質はPCGrimAge EAAと有意に関連；高エネルギー飲料・NOVA4食品で加速、野菜・茶で抑制；低悪性度炎症が部分媒介
+- Importance reason: 食事とエピジェネティック老化時計の関連を示し抗老化の生活習慣研究として話題性があるが、横断的で因果は示せない
+- Clinical relevance: 現時点では研究用途で診療を直接変えるものではない
+- Novelty: 次世代エピジェネティック時計と食品カテゴリの関連を媒介解析で評価した点
+- Evidence strength: low
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 横断的で因果不明；自己申告の食事評価；単一コホート
+- Practice change potential: 低（研究段階）
+- Next action: 食事介入によるEAA変化を検証する前向き・介入研究を追跡する
+- Watch keywords: epigenetic age acceleration diet, PCGrimAge food category, DunedinPACE inflammation, inflammaging nutrition
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42263547/
+- OA URL: https://doi.org/10.1016/j.clnu.2026.106703
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42263547/, https://doi.org/10.1016/j.clnu.2026.106703
+- Summary: Lifelines-DEEP691例の横断解析。食事の質がエピジェネティック年齢加速（特にPCGrimAge）と関連し、低悪性度炎症が部分的に媒介。話題性は高いが横断的で因果は不明。
+- Trend summary: 食事とエピジェネティック老化時計の関連を扱う抗老化栄養研究が拡大している。
+- Future outlook: 食事介入によるエピジェネティック時計変化を検証する介入研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 9. The Role of Epicardial and Visceral Fat in Severe Respiratory Infections: Associations With Adverse Outcomes.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 9
+- Score: 20
+- Importance level: 低
+- PMID: 42267655
+- DOI: 10.1111/cob.70089
+- Journal: Clinical obesity
+- Pub year: 2026
+- Study design: 後ろ向き観察コホート（CT計測）
+- Population: COVID-19で集中治療を受けた重症患者（CT撮影例）
+- Intervention: 内臓脂肪（VAT）・心外膜脂肪（EAT）のCT計測
+- Comparison: 死亡群 vs 生存群；BMI層別
+- Main outcome: ICU死亡
+- Key findings: 死亡群でEAT面積が大；BMI30未満ではEAT増大が死亡リスク上昇と関連（OR1.06）
+- Importance reason: 非肥満の重症呼吸器感染患者でEATが予後マーカーとなりうる可能性を示すが、後ろ向き単一病態で一般化は限定的
+- Clinical relevance: 重症患者のリスク層別化の参考だが対象が限定的
+- Novelty: VATとEATを比較しEATの予後関連を示した点
+- Evidence strength: low
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 後ろ向き・観察；単一病態（COVID）；交絡残存
+- Practice change potential: 低（仮説生成段階）
+- Next action: EATの予後マーカーとしての前向き検証を追跡する
+- Watch keywords: epicardial fat respiratory infection, visceral fat COVID mortality, EAT prognostic marker, adipose tissue ICU outcome
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42267655/
+- OA URL: https://doi.org/10.1111/cob.70089
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42267655/, https://doi.org/10.1111/cob.70089
+- Summary: COVID-19重症患者の後ろ向きCT研究。心外膜脂肪面積が死亡群で大きく、非肥満例ではEAT増大が死亡リスクと関連（OR1.06）。後ろ向き単一病態で一般化は限定的。
+- Trend summary: 脂肪分布をCTで定量し重症感染症の予後と関連づける研究が増えている。
+- Future outlook: EATの予後マーカーとしての前向き検証と他病態への一般化が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 10. Postpartum haemorrhage: epidemiology, consequences, and missed opportunities.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 1
+- Score: 88
+- Importance level: 高
+- PMID: 42285119
+- DOI: 10.1016/S0140-6736(26)00902-5
+- Journal: Lancet
+- Pub year: 2026
+- Study design: レビュー（Lancet PPHシリーズ）
+- Population: 産後出血を生じうる全分娩女性
+- Intervention: PPHの疫学・予防・診断・治療の包括的整理とWHO新定義の提示
+- Comparison: 従来定義・従来管理
+- Main outcome: PPH発生・死亡・経済負担とWHO新定義
+- Key findings: 年間約2700万人にPPH、約4万3000人が死亡；膣分娩有病率12.6%、帝王切開30.9%；WHOが客観測定出血300mL＋血行動態異常または500mLへ再定義
+- Importance reason: PPHの定義・予防・診断を診療レベルで更新しうる主要レビュー
+- Clinical relevance: 周産期出血管理プロトコルとリスク評価の見直しに直結
+- Novelty: WHO新定義と見逃しの体系的整理
+- Evidence strength: moderate
+- Safety notes: レビューであり各推奨は一次データに遡及確認が必要
+- Limitations: 一次研究ではなく統合レビュー；推奨の根拠強度は項目差
+- Practice change potential: 高
+- Next action: WHO新定義の各国実装状況と客観的血液量測定の導入効果を追跡する
+- Watch keywords: postpartum haemorrhage WHO definition, PPH prevention uterotonic, blood loss measurement drape, maternal mortality PPH
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42285119/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42285119/, https://doi.org/10.1016/S0140-6736(26)00902-5
+- Summary: Lancetの産後出血レビュー。年間2700万人に発生し4万3000人が死亡。WHOが出血量＋血行動態に基づく新定義を提示し早期診断治療を重視。
+- Trend summary: PPHは客観的血液量測定と新定義による早期診断へと管理潮流が移行している。
+- Future outlook: WHO新定義の世界的実装とバンドル治療の標準化が進むと見込まれる。
+- Deep dive: true
+- Deep dive reason: WHOのPPH新定義と予防戦略は実臨床の出血管理を変えうるため深掘りが必要
+
+## 11. Prevention of postpartum haemorrhage: from evidence to implementation at scale.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 2
+- Score: 85
+- Importance level: 高
+- PMID: 42285117
+- DOI: 10.1016/S0140-6736(26)00903-7
+- Journal: Lancet
+- Pub year: 2026
+- Study design: レビュー（Lancet PPHシリーズ）
+- Population: 全分娩女性
+- Intervention: 子宮収縮薬を含むPPH予防戦略の整理
+- Comparison: 単剤対併用予防
+- Main outcome: PPH予防効果と副作用
+- Key findings: Cochraneネットワークメタ解析（122試験12万1931人）でオキシトシン＋ミソプロストールまたは＋エルゴメトリンが最も有効だが副作用増；単剤はオキシトシンまたはカルベトシンが有効で副作用最小、ルーチンには単剤予防を推奨
+- Importance reason: PPH予防の薬剤選択を根拠とともに整理し診療指針に直結
+- Clinical relevance: 分娩時のルーチン子宮収縮薬選択の標準化に寄与
+- Novelty: 予防の薬剤比較と実装課題を統合
+- Evidence strength: high
+- Safety notes: 併用は副作用増；単剤を基本とする
+- Limitations: レビューであり個別設定への一般化に注意
+- Practice change potential: 高
+- Next action: カルベトシン供給と低資源環境でのミソプロストール代替運用を追跡する
+- Watch keywords: PPH prophylaxis oxytocin, carbetocin, misoprostol, uterotonic network meta-analysis
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42285117/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42285117/, https://doi.org/10.1016/S0140-6736(26)00903-7
+- Summary: PPH予防レビュー。単剤オキシトシンまたはカルベトシンをルーチン推奨、併用は高リスク例で考慮。実装課題も整理。
+- Trend summary: 予防はリスク層別化と単剤標準化、供給確保へと向かっている。
+- Future outlook: 低資源環境での予防実装と熱安定カルベトシン普及が焦点。
+- Deep dive: 
+- Deep dive reason: 
+
+## 12. PGT-A is associated with a reduced live birth rate in routine practice: evidence from the UK ART register.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 3
+- Score: 82
+- Importance level: 高
+- PMID: 42275751
+- DOI: 10.1016/j.rbmo.2026.105747
+- Journal: Reproductive biomedicine online
+- Pub year: 2026
+- Study design: レジストリ後ろ向きコホート（HFEA、11万1975治療エピソード）
+- Population: 2014〜2018年に英国でIVFを受けた患者
+- Intervention: PGT-A実施
+- Comparison: PGTなし標準IVF
+- Main outcome: 生児獲得率・流産・移植到達率
+- Key findings: PGT-Aは初回（OR0.86）および累積（OR0.74）生児獲得率の低下と関連、流産は減少（累積OR0.64）、48%で初回移植に至らず
+- Importance reason: ルーチン診療下でのPGT-Aの有用性に疑問を投げる大規模レジストリ証拠
+- Clinical relevance: PGT-Aの適応とカウンセリングに直接影響
+- Novelty: 国家レジストリ規模でのルーチン実態評価
+- Evidence strength: moderate
+- Safety notes: 胚生検の侵襲・移植機会損失の論点
+- Limitations: 観察研究；2014〜2018年で技術が現行と異なる可能性；交絡残存
+- Practice change potential: 中〜高
+- Next action: 現行NGS・モザイク胚を含む前向きRCTと併せて解釈する
+- Watch keywords: PGT-A live birth rate, HFEA register, aneuploidy testing IVF, embryo biopsy outcome
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42275751/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42275751/, https://doi.org/10.1016/j.rbmo.2026.105747
+- Summary: 英国HFEAレジストリ解析でPGT-Aはルーチン診療下で累積生児獲得率を下げ流産を減らすと示した。全例適用の有用性に疑問。
+- Trend summary: PGT-Aは全例適用から特定層への限定運用へ議論が移行している。
+- Future outlook: 現行技術での前向きRCTとサブグループ別適応の精緻化が進む。
+- Deep dive: true
+- Deep dive reason: PGT-Aの全例適用に不利な大規模証拠で適応判断を変えうるため深掘りが必要
+
+## 13. IVF patient subgroups benefit from preimplantation genetic testing for aneuploidy: a prospective multicentre cohort study.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 4
+- Score: 75
+- Importance level: 高
+- PMID: 42275750
+- DOI: 10.1016/j.rbmo.2026.105776
+- Journal: Reproductive biomedicine online
+- Pub year: 2026
+- Study design: 前向き多施設コホート（260例、歴史的対照3060例）
+- Population: AMA・RIF・RPLのIVF患者
+- Intervention: PGT-A後の単一凍結胚移植
+- Comparison: 従来の単一凍結胚移植（歴史的対照）
+- Main outcome: 進行妊娠率・流産率・累積妊娠率
+- Key findings: AMA・RIF・RPLで進行妊娠オッズ改善（OR2.20/3.96/2.81）、流産減少、累積妊娠率は不変（RR0.94）
+- Importance reason: PGT-Aが特定サブグループでは有益と示し前述レジストリと対をなす
+- Clinical relevance: AMA・RIF・RPL患者への適応選択に有用
+- Novelty: サブグループ別の前向き評価
+- Evidence strength: moderate
+- Safety notes: 生検侵襲；累積では上乗せ効果なし
+- Limitations: 歴史的対照；観察デザイン；単施設要素
+- Practice change potential: 中
+- Next action: サブグループ別の無作為化エビデンスを追跡する
+- Watch keywords: PGT-A subgroup, advanced maternal age IVF, recurrent implantation failure, recurrent pregnancy loss
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42275750/
+- OA URL: https://doi.org/10.1016/j.rbmo.2026.105776
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42275750/, https://doi.org/10.1016/j.rbmo.2026.105776
+- Summary: 前向きコホートでPGT-AがAMA・RIF・RPLの進行妊娠率を改善し流産を減らすが累積妊娠率は不変と示した。特定層での有益性を示唆。
+- Trend summary: PGT-Aの価値はサブグループ別の選択的適用へと収束しつつある。
+- Future outlook: 層別化RCTによる適応基準の確立が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 14. Diagnosis and treatment of postpartum haemorrhage: a race against time.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 5
+- Score: 74
+- Importance level: 高
+- PMID: 42285120
+- DOI: 10.1016/S0140-6736(26)01031-7
+- Journal: Lancet
+- Pub year: 2026
+- Study design: レビュー（Lancet PPHシリーズ）
+- Population: PPHを生じた分娩女性
+- Intervention: 客観的血液量測定と初期対応バンドル
+- Comparison: 目測・遅延対応
+- Main outcome: 診断精度と臨床転帰
+- Key findings: 視覚的目測は膣分娩PPHの52%を見逃す（感度48%）；客観測定＋バンドルで早期診断と転帰改善；避けるべき6つの遅延を提示
+- Importance reason: PPHの早期診断・初期治療の実装枠組みを提示
+- Clinical relevance: 分娩室での測定・エスカレーション手順に直結
+- Novelty: 6つの遅延フレームワーク
+- Evidence strength: moderate
+- Safety notes: 難治性PPHは多職種で積極的蘇生が必要
+- Limitations: レビューであり実装効果は環境依存
+- Practice change potential: 高
+- Next action: calibrated drape等の客観測定導入効果を追跡する
+- Watch keywords: quantitative blood loss, PPH bundle, calibrated drape, first response treatment
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42285120/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42285120/, https://doi.org/10.1016/S0140-6736(26)01031-7
+- Summary: PPH診断治療レビュー。目測は半数を見逃すため客観測定とバンドル対応を推奨し、避けるべき6つの遅延を提示。
+- Trend summary: PPH管理は客観測定と標準化バンドルによる時間短縮へ向かう。
+- Future outlook: 助産師主導バンドルと早期エスカレーション基準の普及が進む。
+- Deep dive: 
+- Deep dive reason: 
+
+## 15. Vitamin D deficiency in pregnant women: obstetric implications and clinical management.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 6
+- Score: 66
+- Importance level: 中
+- PMID: 42261719
+- DOI: 10.5603/gpl.110273
+- Journal: Ginekologia polska
+- Pub year: 2026
+- Study design: システマティックレビュー（2020〜2025年）
+- Population: 妊婦
+- Intervention: ビタミンD補充（2000〜4000 IU/日）
+- Comparison: 欠乏（50nmol/L未満）
+- Main outcome: 妊娠合併症・胎児アウトカム
+- Key findings: 欠乏は妊娠高血圧腎症（OR0.65）・妊娠糖尿病（OR1.61）・早産（RR0.67）・SGA（RR0.61）と関連；2000〜4000 IU/日は安全有効
+- Importance reason: 妊婦のビタミンD評価と個別補充の妊婦健診への組み込みを支持
+- Clinical relevance: 高リスク妊婦のスクリーニングと補充の参考
+- Novelty: 近年エビデンスの統合更新
+- Evidence strength: moderate
+- Safety notes: 提示用量は安全域だが過量回避の管理が必要
+- Limitations: 効果指標の方向が混在；観察研究を含む統合
+- Practice change potential: 中
+- Next action: 至適血中濃度と用量を検証する大規模RCTを追跡する
+- Watch keywords: vitamin D pregnancy, preeclampsia supplementation, gestational diabetes vitamin D, preterm birth
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42261719/
+- OA URL: https://journals.viamedica.pl/ginekologia_polska/article/download/110273/89217
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42261719/, https://doi.org/10.5603/gpl.110273
+- Summary: 妊娠中ビタミンD欠乏のSR。欠乏は子癇前症・妊娠糖尿病・早産・SGAと関連、2000〜4000 IU/日が安全有効と整理。
+- Trend summary: 妊婦のビタミンD評価と個別補充の標準化への関心が続く。
+- Future outlook: 至適濃度と用量を定める大規模RCTが期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 16. Effect of vaginal estrogen supplementation for luteal phase support in the GnRH antagonist protocol on pregnancy outcomes for IVF/ICSI cycles: a randomized controlled trial.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 7
+- Score: 64
+- Importance level: 中
+- PMID: 42266463
+- DOI: 10.1093/hropen/hoag042
+- Journal: Human reproduction open
+- Pub year: 2026
+- Study design: 単施設RCT（518例）
+- Population: GnRHアンタゴニスト周期の正常反応IVF/ICSI患者
+- Intervention: プロゲステロン＋膣17βエストラジオール
+- Comparison: プロゲステロン単独
+- Main outcome: 進行妊娠率・生児獲得率
+- Key findings: 着床率・臨床妊娠率は改善するが、進行妊娠・生児獲得は有意改善せず
+- Importance reason: 黄体期エストロゲン追加の是非に良質なRCT証拠を提供
+- Clinical relevance: アンタゴニスト周期の黄体補充プロトコル判断に有用
+- Novelty: 膣エストラジオール追加を検証したRCT
+- Evidence strength: moderate
+- Safety notes: 非盲検デザインによるバイアスの可能性
+- Limitations: 単施設；非盲検；真のアウトカムで有意差なし
+- Practice change potential: 中
+- Next action: 生児獲得を主要評価とした多施設RCTを追跡する
+- Watch keywords: luteal phase support estrogen, GnRH antagonist IVF, endometrial receptivity, frozen embryo transfer
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42266463/
+- OA URL: https://doi.org/10.1093/hropen/hoag042
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42266463/, https://doi.org/10.1093/hropen/hoag042
+- Summary: アンタゴニスト周期の黄体補充に膣エストラジオールを追加したRCT。着床・臨床妊娠は改善も進行妊娠・生児獲得は有意差なし。
+- Trend summary: 黄体補充の最適化研究で代理指標と真のアウトカムの乖離が注目される。
+- Future outlook: 生児獲得を主要評価とした大規模試験が必要とされる。
+- Deep dive: 
+- Deep dive reason: 
+
+## 17. Impact of kangaroo mother care on maternal postpartum depression: a systematic review and meta-analysis of controlled trials.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 8
+- Score: 60
+- Importance level: 中
+- PMID: 42286120
+- DOI: 10.1038/s41390-026-05157-3
+- Journal: Pediatric research
+- Pub year: 2026
+- Study design: システマティックレビュー・メタアナリシス（13試験）
+- Population: 母児892例（KMC群439、対照453）
+- Intervention: カンガルーマザーケア（皮膚接触）
+- Comparison: 通常ケア
+- Main outcome: 産後うつ症状（SMD）
+- Key findings: KMCは抑うつ症状を有意に減少（SMD−0.58、95%CI−0.88〜−0.28、I²=78%）；低資源国・早産児でより大きい効果
+- Importance reason: 低コストで拡張可能な非薬物的産後うつ対策を支持
+- Clinical relevance: 周産期メンタルヘルス支援への組み込み根拠
+- Novelty: 対照試験の定量統合の更新
+- Evidence strength: moderate
+- Safety notes: 非薬物介入で安全性懸念は小さい
+- Limitations: 異質性大（I²=78%）；少数研究の影響大
+- Practice change potential: 中
+- Next action: 高資源環境での効果と標準化プロトコルを検証する研究を追跡する
+- Watch keywords: kangaroo mother care, postpartum depression, skin-to-skin contact, maternal mental health
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42286120/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42286120/, https://doi.org/10.1038/s41390-026-05157-3
+- Summary: KMCの産後うつ抑制メタアナリシス。抑うつを有意に減少（SMD−0.58）、低資源国と早産児で効果大。異質性は大きい。
+- Trend summary: 産後うつへの低コスト非薬物介入の評価が進んでいる。
+- Future outlook: 高資源環境での効果検証と実装研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 18. Oral functional limitation and long-term frailty trajectories: a 6-year cohort study of community-dwelling older adults in Korea.
+
+- Date: 2026-06-13
+- Genre: 抗老化
+- Rank: 9
+- Score: 58
+- Importance level: 中
+- PMID: 42283776
+- DOI: 10.1007/s11357-026-02353-1
+- Journal: GeroScience
+- Pub year: 2026
+- Study design: 前向きコホート研究（6年、約2731例）
+- Population: 地域在住の70〜84歳高齢者
+- Intervention: 口腔機能制限（咀嚼・嚥下・発音困難）の評価
+- Comparison: 口腔機能制限なし
+- Main outcome: フレイル発症と状態遷移
+- Key findings: 口腔機能制限はフレイル発症（調整HR1.53）と持続制限での後続リスク（HR1.42）に関連；robustからpre-frailへの進行も増加
+- Importance reason: 修正可能因子である口腔機能とフレイル進行の関連を大規模前向きで示した
+- Clinical relevance: 高齢者の口腔機能評価をフレイル予防に組み込む根拠
+- Novelty: 多状態モデルでフレイル遷移を解析
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 自己申告の口腔機能；観察研究で因果不明；残存交絡
+- Practice change potential: 中
+- Next action: 口腔機能改善介入のフレイル予防効果を検証する研究を追跡する
+- Watch keywords: oral function frailty, chewing frailty cohort, frailty transition older adults, KFACS cohort
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42283776/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42283776/
+- Summary: 韓国の地域高齢者6年コホート。口腔機能制限がフレイル発症（HR1.53）と進行に関連し、修正可能因子としての口腔機能の重要性を示す。
+- Trend summary: 口腔機能を含む修正可能因子とフレイルの関連研究が拡大している。
+- Future outlook: 口腔機能介入によるフレイル予防効果の介入研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 19. What is Weight Loss after Bariatric Surgery Expressed in Percentage Total Weight Loss (%TWL)? An Updated Systematic Review.
+
+- Date: 2026-06-13
+- Genre: ダイエット・筋トレ
+- Rank: 10
+- Score: 55
+- Importance level: 中
+- PMID: 42283772
+- DOI: 10.1007/s11695-026-08766-3
+- Journal: Obesity surgery
+- Pub year: 2026
+- Study design: システマティックレビュー（49研究）
+- Population: 代謝・減量手術を受けた患者
+- Intervention: OAGB・RYGB・SG
+- Comparison: 術式間比較
+- Main outcome: %TWL（総体重減少率）
+- Key findings: 4541件中49研究を統合；OAGBが2年以内のnadir %TWL最高、長期も高い傾向；RYGBとSGは同等
+- Importance reason: 減量手術の効果を%TWLで標準化横断比較した更新SRで術式選択の参考
+- Clinical relevance: 減量手術の術式選択とアウトカム説明の根拠
+- Novelty: 2021年SRをOAGB含め更新
+- Evidence strength: moderate
+- Safety notes: 合併症・再手術リスクは本SRの範囲外で別途評価要
+- Limitations: 研究間異質性大；長期データ限定；記述的統合
+- Practice change potential: 中
+- Next action: 合併症・再手術を含む長期標準化アウトカムを追跡する
+- Watch keywords: bariatric surgery %TWL, OAGB RYGB sleeve weight loss, metabolic surgery outcome, total weight loss systematic review
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42283772/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42283772/
+- Summary: 減量手術後の%TWLを49研究で更新統合。OAGBが短期長期とも高い傾向、RYGBとSGは同等。術式選択の情報源だが合併症は範囲外。
+- Trend summary: 減量手術の効果指標を%TWLで標準化し術式比較する動きが進む。
+- Future outlook: 合併症・再手術を含む長期標準化アウトカムの蓄積が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 20. Maternal TSH and FT4 changes during pregnancy as risk factors for preeclampsia in euthyroid women.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 11
+- Score: 52
+- Importance level: 中
+- PMID: 42272805
+- DOI: 10.3389/fendo.2026.1782499
+- Journal: Frontiers in endocrinology
+- Pub year: 2026
+- Study design: 大規模後ろ向き研究
+- Population: 甲状腺機能正常の妊婦
+- Intervention: 妊娠初期〜後期のTSH・FT4変化の評価
+- Comparison: 甲状腺機能変化のパターン別4群
+- Main outcome: 子癇前症およびその合併症
+- Key findings: ΔTSH上昇＋ΔFT4低下群で子癇前症リスク最高（aOR1.89）、早産aOR3.35、低出生体重aOR2.46；子癇前症の21.6%、重症例36.6%が同パターンに起因
+- Importance reason: 正常範囲内の甲状腺機能変化と子癇前症の関連を大規模に示した
+- Clinical relevance: 妊娠中の甲状腺機能モニタリングのリスク層別化に示唆
+- Novelty: 閾値効果と人口寄与危険度の解析
+- Evidence strength: moderate
+- Safety notes: 介入研究ではなくスクリーニング適否は未確立
+- Limitations: 後ろ向き；単一集団；代理指標寄り；因果不明
+- Practice change potential: 低〜中
+- Next action: 甲状腺機能変化に基づくリスク層別化の前向き検証を追跡する
+- Watch keywords: maternal TSH FT4, preeclampsia thyroid, euthyroid pregnancy, thyroid function pregnancy
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42272805/
+- OA URL: https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2026.1782499/pdf
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42272805/, https://doi.org/10.3389/fendo.2026.1782499
+- Summary: 正常甲状腺機能妊婦でΔTSH上昇＋ΔFT4低下が子癇前症と関連（aOR1.89）。人口寄与危険度も高いが後ろ向きで因果は不明。
+- Trend summary: 正常範囲内の甲状腺指標変化と妊娠合併症の関連研究が進む。
+- Future outlook: 甲状腺機能変化を用いたリスク層別化の前向き検証が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 21. Altered miRNA cargo of endometrial extracellular vesicles in patients with endometriosis: potential implications for pregnancy outcomes.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 12
+- Score: 48
+- Importance level: 中
+- PMID: 42282918
+- DOI: 10.1093/hropen/hoag040
+- Journal: Human reproduction open
+- Pub year: 2026
+- Study design: 前向き実験的比較研究（オルガノイド、子宮内膜症16例・健常15例）
+- Population: 子宮内膜症患者と健常女性の正所性子宮内膜
+- Intervention: 妊娠相分化後のEV miRNAプロファイリング
+- Comparison: 健常女性のEV miRNA
+- Main outcome: 差次発現miRNAと標的経路
+- Key findings: 8つのmiRNAが有意差（6下方・2上方）；妊娠障害関連の生物学的過程を調節しうる
+- Importance reason: 子宮内膜症関連の妊娠合併症機序の理解に寄与する基礎研究
+- Clinical relevance: 現時点では研究用途で診療を直接変えるものではない
+- Novelty: オルガノイドEV miRNAの妊娠相解析
+- Evidence strength: low
+- Safety notes: 基礎研究で臨床安全性の論点なし
+- Limitations: 小規模；in vitro；臨床アウトカム未検証
+- Practice change potential: 低
+- Next action: EV miRNAの着床・妊娠転帰への臨床的関連を検証する研究を追跡する
+- Watch keywords: endometriosis miRNA, extracellular vesicles endometrium, implantation biomarker, endometrial organoid
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42282918/
+- OA URL: https://doi.org/10.1093/hropen/hoag040
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42282918/, https://doi.org/10.1093/hropen/hoag040
+- Summary: 子宮内膜症患者の子宮内膜EVで8つのmiRNAが変化し妊娠障害関連経路を調節しうると示した基礎研究。臨床検証は今後の課題。
+- Trend summary: 子宮内膜症の妊娠合併症機序とEV miRNAバイオマーカー研究が拡大している。
+- Future outlook: EV miRNAの臨床的バイオマーカー化と着床機序解明が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
