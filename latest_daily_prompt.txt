@@ -1,0 +1,1129 @@
+# Daily実行指示
+
+以下のDaily入力を用いて、医学論文のDaily選定・要約・JSON出力を実行してください。
+
+## 入力ファイル情報
+
+- Source: latest generated Drive text file
+- Source mode: script_property_file_id
+- File: 2026-06-14_daily_all_input_dropbox_source.txt
+- Folder: saved_file_id
+- Updated: 2026-06-14 11:35:01
+- Drive URL: https://drive.google.com/file/d/1n_0YATccIUQz254_8ftRb2CBV5O5UOmZ/view?usp=drivesdk
+
+## 必須条件
+
+1. Dropboxコネクタは使わない。
+2. このURL本文に含まれる候補論文だけを対象にする。
+3. Core candidatesを優先し、Reserve candidatesは明らかに重要な場合のみ昇格する。
+4. ネタ枠候補は臨床重要論文Topとは別枠として最大3本まで扱う。
+5. 出力は human_readable_summary と machine_readable_summary の2部構成にする。
+6. machine_readable_summary はJSON配列のみ。Markdownコードブロック、コメント、Sourcesを付けない。
+7. JSONキーは clinical_impact_score と evidence_strength を使う。evidence_level は使わない。
+8. deep_dive は原則2本、非常に重要な日だけ最大3本。ネタ枠は原則 deep_dive=false。
+
+---
+
+# 2026-06-14 4ジャンル統合 医学論文スクリーニング
+
+このファイルは、PubMed/OpenAlexから自動取得した本日の医学論文候補を4ジャンル統合したものです。
+
+対象ジャンル：周産期 / 生殖 / 抗老化 / ダイエット・筋トレ
+
+あなたは医学文献スクリーニング担当のリサーチアナリストです。
+目的は公開済み医学文献の研究・情報整理であり、個別患者への診療判断・治療推奨ではありません。
+
+## 選定方針（最重要）
+順位付けの主軸は「臨床的インパクト」です。エビデンスレベルは従軸とし、同点時のタイブレークに用います。
+Core candidatesを優先し、Reserve candidatesに明らかに重要な論文がある場合のみ昇格してください。
+4ジャンルは同一基準でフラットに評価し、ジャンルによる重み付けは行わないでください。
+
+原則ちょうど12本を横断選定する。臨床的に重要なRCT・ガイドライン・メタアナリシス・大規模前向きコホートが多い日のみ最大20本まで許可。
+各ジャンル最低1本は含める。候補全体で明らかに選定に値するものが12本未満の場合のみ12本未満にしてよい。
+
+## 評価時の注意
+- 与えられた候補リスト内から選定し、リスト外の論文を新たに追加しないでください。
+- まず各候補を独立に臨床的インパクトで採点し、その後に上位を相互比較して横断順位を確定する2段階で評価してください。
+- 症例報告・動物実験のみ・代理指標のみ・利益相反が強くヒトデータが弱いものは原則低評価。
+- 抗老化・ダイエット筋トレでも、診療を変えうる大規模ヒト研究は周産期・生殖と同等に高く評価してよい。
+
+## ネタ枠
+- 「ネタ枠候補」がある場合、一般受け・話題化しやすい論文として最大3本まで別軸で取り上げてよい。
+- ネタ枠は過大評価せず、研究デザイン、ヒトデータかどうか、限界を必ず明記する。
+- ネタ枠は原則 deep_dive=false。大規模RCT、主要メタアナリシス、重要な安全性シグナルの場合のみ true にしてよい。
+
+## 実行指示
+確認質問をせず、以下の2部構成で最後まで出力してください。
+
+【第1部：human_readable_summary】
+ここだけは日本語で出力してください。Markdownの見出し記号（#, ##, ###）は使わず、通常文章で出力してください。
+構成は、1.今日の結論、2.最重要論文、3.ジャンル別要点、4.安全性・限界、5.次に見るべきこと、6.ウォッチキーワード、7.除外したが注意すべき論文、8.ネタ枠候補、の順。
+臨床助言ではなく、公開済み医学文献の研究・情報整理として記載してください。
+
+【第2部：machine_readable_summary】
+Apps Script取り込み用のJSON配列です。JSON配列の直前に machine_readable_summary: と書いてください。
+JSON配列は必ず [ で始まり ] で終わる有効なJSONにし、Markdown・コードブロック・コメント・末尾カンマを入れないでください。
+要素数は通常12個。重要論文が多い場合のみ13〜20個まで許可。各ジャンル最低1本。
+JSONのキー名は英語のままにしてください。
+
+各JSON objectには以下を可能な限り含めてください：
+genre, rank, clinical_impact_score, importance_level, pmid, doi, title, journal, pub_year, study_design, population, intervention, comparison, main_outcome, key_findings, importance_reason, clinical_relevance, novelty, evidence_strength, safety_notes, limitations, practice_change_potential, deep_dive, deep_dive_reason, next_action, watch_keywords, pubmed_url, oa_url, source_urls, perplexity_summary, trend_summary, future_outlook
+
+重要：clinical_impact_score は 0〜100 の整数で、臨床的インパクトのみを表す主軸スコア。rank はこの clinical_impact_score の降順で付与してください。
+evidence_strength は研究デザインとnとバイアスリスクに基づく従軸（例：high / moderate / low）。evidence_level は使わず evidence_strength に統一してください。
+deep_dive は true/false、deep_dive_reason はその理由。deep_dive=trueは原則2本、最大3本まで。
+第2部のJSON配列は必ず単独でJSON.parse可能な形式にしてください。
+
+---
+
+# 周産期
+
+## 周産期 Core candidates
+
+## 周産期 Core-1. Maternal Oral Microbiome Dysbiosis and Adverse Pregnancy Outcomes: Microbial Signatures, Inflammatory Pathways, and Clinical Evidence.
+
+- Candidate bucket: Core
+- 事前スコア: 3
+- PMID: 42279243
+- DOI: 10.3390/jcm15114379
+- Journal: Journal of clinical medicine
+- PubDate: 2026-06-05
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42279243/
+- OA URL: https://doi.org/10.3390/jcm15114379
+- OpenAlex cited_by_count: 0
+
+Abstract:
+: Pregnancy is characterized by complex physiological, hormonal, and immunological changes that influence the oral environment and the microbial composition of the oral cavity. Emerging evidence suggests that maternal oral dysbiosis may be associated with systemic inflammatory responses and may potentially influence pregnancy outcomes. This systematic review aimed to evaluate the current clinical evidence regarding the association between maternal oral dysbiosis and adverse pregnancy outcomes, including preterm birth, low birth weight, and gestational complications. : A systematic search of PubMed, Scopus, Web of Science, and Cochrane Library was conducted for studies published between January 2013 and September 2025. Observational studies and clinical trials examining the relationship between maternal oral dysbiosis or periodontal pathogens and pregnancy outcomes in pregnant women were included. Study selection was performed according to the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA 2020) guidelines, and the review was prospectively registered in PROSPERO (CRD420261383855). Data were extracted on the study design, population characteristics, microbiological assessment methods, and reported pregnancy outcomes. Ten studies met the inclusion criteria of this review. : Seven of the ten included studies reported significant associations between the increased prevalence of periodontal pathogens, including , , and , and adverse pregnancy outcomes, particularly preterm birth and low birth weight (LBW). Several studies have identified oral bacterial DNA in placental tissues, supporting the potential hematogenous microbial translocation pathways. However, heterogeneity in microbiological assessment techniques and study designs limits the comparability of the findings. : Current evidence suggests that maternal oral dysbiosis may be associated with the inflammatory pathways linked to adverse pregnancy outcomes. Further prospective studies and standardized microbiome analyses are required to clarify the role of the oral microbiome in maternal and fetal health. Integrating oral health assessments into prenatal care may be an important strategy for improving maternal and neonatal outcomes.
+
+## 周産期 Core-2. Tuberculosis in Pregnancy: An Updated Narrative Review.
+
+- Candidate bucket: Core
+- 事前スコア: -5
+- PMID: 42279445
+- DOI: 10.3390/diagnostics16111576
+- Journal: Diagnostics (Basel, Switzerland)
+- PubDate: 2026-05-22
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42279445/
+- OA URL: https://doi.org/10.3390/diagnostics16111576
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Tuberculosis remains one of the leading infectious causes of morbidity and mortality worldwide, disproportionately affecting women of reproductive age, particularly in low- and middle-income countries. Tuberculosis during pregnancy represents a major clinical challenge, as physiological and immunological changes associated with pregnancy may obscure symptoms, delay diagnosis, and contribute to adverse maternal and perinatal outcomes. This narrative review provides an updated and clinically oriented overview of tuberculosis during pregnancy, with particular emphasis on diagnostic challenges, imaging strategies, microbiological testing, maternal-fetal complications, and therapeutic management. Key topics include symptom-based screening, tuberculin skin test and interferon gamma release assays, as well as molecular diagnostic methods such as GeneXpert Mycobacterium tuberculosis/Rifampicin (MTB/RIF) and Xpert MTB/RIF Ultra, chest radiography, computed tomography, and emerging biomarkers. We also discuss the impact of tuberculosis on pregnancy outcomes, including prematurity, low birth weight, maternal morbidity, and neonatal complications, as well as the particular challenges posed by human immunodeficiency virus HIV coinfection and multidrug-resistant tuberculosis. Current treatment strategies, preventive approaches, postpartum care, neonatal management, and Bacille Calmette-Guérin vaccination are reviewed in light of contemporary evidence and international recommendations. Finally, we highlight practical diagnostic algorithms, current evidence gaps, and priorities for future research aimed at improving maternal and neonatal outcomes in both high- and low-resource settings.
+
+---
+
+# 生殖
+
+本日の新規候補なし。
+
+---
+
+# 抗老化
+
+## 抗老化 Core candidates
+
+## 抗老化 Core-1. Clinical Effectiveness and Safety of Multimodal Prehabilitation in Colorectal Cancer Surgery-A Narrative State-of-the-Art Review of Research and Clinical Trials.
+
+- Candidate bucket: Core
+- 事前スコア: -1
+- PMID: 42279005
+- DOI: 10.3390/jcm15114128
+- Journal: Journal of clinical medicine
+- PubDate: 2026-05-27
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42279005/
+- OA URL: https://doi.org/10.3390/jcm15114128
+- OpenAlex cited_by_count: 0
+
+Abstract:
+: Colorectal cancer (CRC) remains one of the most common malignancies worldwide. Despite advances in surgical techniques and the implementation of Enhanced Recovery After Surgery (ERAS) protocols, a substantial proportion of patients continue to experience postoperative complications and persistent functional impairment. Multimodal prehabilitation, combining physical exercise, nutritional optimization, and behavioral support, has been proposed as a strategy to enhance functional reserve prior to surgical treatment. The aim of this review was to provide a critical narrative evaluation of current clinical evidence regarding the effectiveness and safety of prehabilitation in patients with CRC. : A targeted literature review was conducted in PubMed, Embase, CINAHL, Scopus, and Web of Science (2015-2025), identifying 23 primary studies, including 18 randomized and 5 non-randomized trials. : Most multimodal prehabilitation programs resulted in significant improvements in functional capacity prior to CRC resection. Functional outcomes were most commonly assessed using the six-minute walk test, cardiopulmonary fitness parameters, and measures of muscle strength, with good tolerance and high patient adherence. Several studies also demonstrated reductions in postoperative complication rates, shorter hospital stays, and faster recovery of independence, particularly among older patients, those with frailty, or reduced baseline functional capacity, although these effects were not fully consistent across studies. : Available clinical evidence supports multimodal prehabilitation as a safe and feasible strategy that consistently preserves and enhances functional reserve prior to CRC surgery. However, its capacity to modify hard perioperative outcomes (such as complication rates and length of stay) remains inconsistent across current RCTs, showing clear efficacy predominantly in targeted high-risk, frail, or malnourished cohorts.
+
+## 抗老化 Core-2. Longitudinal and Stability-Aware Analysis Reveals Treatment-Specific MicroRNA Response Signatures Following Immune-Reconstitution and B-Cell-Targeted Therapies in Multiple Sclerosis.
+
+- Candidate bucket: Core
+- 事前スコア: -1
+- PMID: 42278461
+- DOI: 10.3390/ijms27114935
+- Journal: International journal of molecular sciences
+- PubDate: 2026-05-29
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42278461/
+- OA URL: https://doi.org/10.3390/ijms27114935
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Disease-modifying therapies (DMT)s) for relapsing-remitting multiple sclerosis (RRMS) act through distinct immunological mechanisms, yet the within-patient molecular response programs associated with these therapies remain incompletely defined. Here, we reanalyzed publicly available peripheral blood mononuclear cell (PBMC) miRNA microarray data (GSE230064) using a longitudinal, robustness-focused framework to compare therapy-associated miRNA response patterns following cladribine versus ocrelizumab treatment. Baseline (t0) and 6-month post-treatment (t1) samples were paired within individuals and technical replicates consolidated prior to analysis, yielding a final paired cohort of four cladribine-treated and six ocrelizumab-treated patients. Within each treatment arm, we quantified per-patient Δ-miRNA (t1 - t0) values and prioritized therapy-associated response features using a multi-evidence framework integrating effect direction, magnitude, directional consistency across individuals, and leave-one-out sensitivity. Cladribine treatment was associated with a highly coordinated, directionally concordant upregulation of five miRNAs including hsa-miR-27a-3p, hsa-miR-27b-3p, hsa-miR-503-5p, hsa-miR-148a-3p, and hsa-miR-26a-5p, all exhibiting 100% directional stability across patients and mean Δ-expression values ranging from +0.77 to +1.38. These miRNAs target pathways relevant to MS pathophysiology, including Th17/Treg balance, Wnt-β-catenin signaling, macrophage polarization, and epigenetic immune regulation. In contrast, ocrelizumab elicited a more selective response pattern, with five miRNAs including hsa-miR-100-5p, hsa-miR-410-3p, hsa-miR-432-5p, hsa-miR-296-5p, and hsa-miR-485-3p showing moderate directional stability (83%) and greater inter-individual heterogeneity, consistent with the more targeted mechanism of CD20+ B-cell depletion. Notably, the two treatment-associated signatures were non-overlapping, with hsa-miR-27b-3p representing the only miRNA shared with prior cross-sectional analyses of this dataset. The identified ocrelizumab-associated miRNAs implicate pathways including mTOR/IGF1R signaling, NF-κB regulation, RNA editing, and mitochondrial biogenesis, several of which are dysregulated in progressive MS. Together, these findings demonstrate that cladribine and ocrelizumab induce distinct, treatment-specific miRNA response architectures that
+
+## 抗老化 Core-3. Clinical Utility and Limitations of Traditional Risk Scores (EuroSCORE, EuroSCORE II, and STS-PROM) in Patients Undergoing TAVI: A Narrative Review.
+
+- Candidate bucket: Core
+- 事前スコア: -3
+- PMID: 42278975
+- DOI: 10.3390/jcm15114113
+- Journal: Journal of clinical medicine
+- PubDate: 2026-05-26
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42278975/
+- OA URL: https://doi.org/10.3390/jcm15114113
+- OpenAlex cited_by_count: 0
+
+Abstract:
+The rapid evolution of structural heart interventions, particularly transcatheter aortic valve implantation (TAVI), transcatheter edge-to-edge repair (TEER), and hybrid procedures, has significantly expanded treatment options for elderly, frail, and multimorbid patients previously considered high risk or inoperable. However, perioperative risk stratification in this population remains challenging. Traditional risk scores such as EuroSCORE, EuroSCORE II, STS-PROM, CHADS-VASc, and HAS-BLED were developed and validated primarily in cohorts undergoing conventional open-heart surgery (CABG and surgical valve replacement) more than 15-25 years ago. This narrative review critically evaluates the performance and limitations of these classical models in contemporary populations undergoing modern structural cardiac interventions. Evidence from registries and meta-analyses indicates only moderate discriminatory ability and systematic calibration errors. EuroSCORE II and STS-PROM frequently overestimate risk in low- and intermediate-risk patients while underestimating it in high-risk and frail individuals, particularly regarding neurological, renal complications, and prolonged hospitalization. Similar limitations apply to CHADS-VASc and HAS-BLED when used beyond their original scope in the peri-procedural setting of TAVI/TEER. The review highlights the growing role of frailty assessment, procedure-specific variables, and machine learning algorithms, which demonstrate superior predictive performance compared to conventional scores. Until dedicated, regularly updated risk models based on large TAVI/TEER registries become available, traditional scores should be used only as supportive tools within multidisciplinary Heart Team discussions that incorporate individual frailty, quality of life, and patient preferences.
+
+---
+
+# ダイエット・筋トレ
+
+## ダイエット・筋トレ Core candidates
+
+## ダイエット・筋トレ Core-1. Exercise for Bone Mineral Density in People with Inflammatory Bowel Disease: A Systematic Review.
+
+- Candidate bucket: Core
+- 事前スコア: 13
+- PMID: 42278701
+- DOI: 10.3390/healthcare14111448
+- Journal: Healthcare (Basel, Switzerland)
+- PubDate: 2026-05-24
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42278701/
+- OA URL: https://doi.org/10.3390/healthcare14111448
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND/OBJECTIVES: Inflammatory bowel disease (IBD) is associated with reduced areal bone mineral density (aBMD) and an increased risk of osteoporosis and fragility fractures. Although exercise improves bone health in the general population, its effects on aBMD in adults with IBD are unclear. This systematic review aimed to evaluate the effects of structured exercise interventions on aBMD in adults with IBD and to assess the certainty of the evidence.
+METHODS: We conducted a systematic review in accordance with Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) guidelines and the Cochrane Handbook. Searches were performed in CENTRAL, MEDLINE, Scopus, and Web of Science from inception to November 2025. We included randomized controlled trials comparing structured exercise interventions with usual care, no structured exercise or no intervention in participants aged 16 years and older with IBD. The primary outcome was aBMD; physical activity was a secondary outcome. Risk of bias was assessed using the Cochrane Risk of Bias tool (RoB 2.0), and certainty of evidence was evaluated using Grading of Recommendations Assessment, Development and Evaluation (GRADE). The review protocol was registered in International Prospective Register of Systematic Reviews (PROSPERO) CRD42024617200.
+RESULTS: Two randomized controlled trials ( = 164), both conducted exclusively in adults with Crohn's disease, met the inclusion criteria. Combined impact and resistance training for 6 months was associated with greater lumbar spine aBMD compared with usual care, while hip outcomes were not consistently improved. A 12-month low-impact exercise program compared with no intervention suggested greater trochanter aBMD gain among fully compliant participants, but intention-to-treat between-group differences were not statistically significant across skeletal sites. Due to heterogeneity in interventions and reporting, meta-analysis was not performed. Overall certainty of the evidence was very low because of methodological limitations and imprecision.
+CONCLUSIONS: We are very uncertain about the effect of exercise interventions on aBMD in adults with IBD. Current randomized evidence is limited to adults with Crohn's disease and is insufficient to determine the optimal exercise modality, frequency, intensity, progression, or loading characteristics for improving bone h
+
+## ダイエット・筋トレ Core-2. Dietary Inflammatory Index and Cardiovascular Disease Risk in Australian Adults: A Secondary Analysis of the OLIVAUS Trial.
+
+- Candidate bucket: Core
+- 事前スコア: 6
+- PMID: 42280376
+- DOI: 10.3390/nu18111732
+- Journal: Nutrients
+- PubDate: 2026-05-28
+- PublicationType: Journal Article; Randomized Controlled Trial
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280376/
+- OA URL: https://doi.org/10.3390/nu18111732
+- OpenAlex cited_by_count: 0
+
+Abstract:
+The Dietary Inflammatory Index (DII) is a commonly used tool to assess diet-related inflammation. Higher DII scores have been associated with increased cardiovascular disease risk in observational studies. However, evidence examining cardiovascular outcomes across DII levels in controlled settings remains limited. This secondary analysis examined cross-sectional differences and longitudinal associations between dietary inflammatory potential and cardiovascular outcomes in healthy Australian adults. This study used data from a double-blind randomised crossover trial, in which 50 participants consumed 60 mL/day of either extra virgin high-polyphenol olive oil (HPOO; 320 mg/kg) or low-polyphenol olive oil (LPOO; 86 mg/kg) across two 3-week intervention periods, separated by a 2-week washout. Anthropometric measures (weight, height, waist circumference, and BMI) and cardiovascular outcomes (i.e., blood pressure, lipids, oxidised LDL, and HDL cholesterol efflux capacity) were assessed at four timepoints. DII and energy-adjusted DII (E-DII) scores were derived from 3-day food diaries. Linear mixed-effects models were used to compare cardiovascular outcomes across repeated-measures DII tertiles (low, medium, and high), adjusting for intervention, period, sequence, age, sex and waist circumference. Forty-three participants completed this study. At baseline, BMI, waist circumference, systolic blood pressure, total cholesterol, and LDL differed significantly across DII tertiles ( < 0.05). However, over time, cardiovascular outcomes did not differ between medium or high versus low DII tertiles, and no significant time-by-tertile interactions were observed (all > 0.05). DII values remained stable, while E-DII showed modest within-person reductions during both intervention periods (mean reduction: 0.886 units vs. 0.596 units). : In this healthy cohort, there was no evidence of a consistent association between DII and short-term differences in cardiovascular outcomes across the intervention period. These findings should be interpreted cautiously, given the observational nature of DII groupings. Longer-duration studies with greater variation in dietary inflammatory potential are warranted to clarify the relationship between DII and cardiovascular health.
+
+## ダイエット・筋トレ Core-3. Associations of Dietary Factors, Body Mass Index, and Physical Activity with Tinnitus: A Scoping Review.
+
+- Candidate bucket: Core
+- 事前スコア: 4
+- PMID: 42279134
+- DOI: 10.3390/jcm15114274
+- Journal: Journal of clinical medicine
+- PubDate: 2026-06-01
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42279134/
+- OA URL: https://doi.org/10.3390/jcm15114274
+- OpenAlex cited_by_count: 0
+
+Abstract:
+: Emerging evidence suggests that metabolic, nutritional, and lifestyle-related factors may be associated with tinnitus occurrence and symptom burden. Nutritional status, obesity, and sedentary behavior have been hypothesized to be linked with auditory function, neural excitability, and tinnitus-related outcomes. This scoping review aimed to map and summarize the available evidence on associations between dietary factors, nutrient intake, body mass index (BMI), obesity, physical activity, and tinnitus occurrence, severity, and related clinical outcomes. : A scoping review was conducted in accordance with the PRISMA-ScR reporting guidelines. A comprehensive search of PubMed, Web of Science, and Cochrane Library databases was performed. Eligible designs included randomized controlled trials, cohort studies, case-control studies, and cross-sectional studies. Data were extracted and synthesized narratively due to methodological heterogeneity. : Twenty-four studies met the inclusion criteria. Several observational studies reported associations between protein intake, lipid profile, micronutrient status, BMI, obesity, physical activity, and tinnitus-related outcomes. Evidence on antioxidant supplementation was heterogeneous, with some trials reporting favorable changes in tinnitus-related measures and others showing no significant benefit compared with placebo. Elevated BMI, obesity, and altered body composition were generally associated with tinnitus occurrence or greater symptom severity. Randomized trials suggested that structured lifestyle programs involving dietary modification, weight reduction, and physical activity may be associated with improvements in tinnitus severity and quality of life in selected patient groups. : The available literature suggests potential associations between nutritional, metabolic, and lifestyle-related factors and tinnitus occurrence or symptom severity. However, the evidence is heterogeneous and largely observational, with inconsistent adjustment for hearing loss, psychological distress, and general health status. Further well-designed prospective studies and randomized controlled trials are needed before causal or clinical recommendations can be formulated.
+
+## ダイエット・筋トレ Core-4. A randomised controlled crossover study to assess adherence and palatability of a porridge supplement compared to a drink-based supplement in hospitalised older adults at risk of malnutrition.
+
+- Candidate bucket: Core
+- 事前スコア: 2
+- PMID: 42267152
+- DOI: 10.1017/jns.2026.10108
+- Journal: Journal of nutritional science
+- PubDate: 2026
+- PublicationType: Journal Article; Randomized Controlled Trial
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42267152/
+- OA URL: https://www.cambridge.org/core/services/aop-cambridge-core/content/view/74C08E4CF34459047648D1B1CCCEB3AE/S2048679026101086a.pdf/div-class-title-a-randomised-controlled-crossover-study-to-assess-adherence-and-palatability-of-a-porridge-supplement-compared-to-a-drink-based-supplement-in-hospitalised-older-adults-at-risk-of-malnutrition-div.pdf
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Oral nutritional supplements (ONS) are essential adjuncts in managing malnutrition in hospitalised older people. This study aimed to explore the adherence and palatability of a new porridge supplement (PS) compared to a standard drink-based supplement (DS) in hospitalised older adults. A single-centre multi-method randomised controlled crossover study was conducted on adults aged ≥65 years at risk of malnutrition (Malnutrition Universal Screening Tool score 1-4). Each participant was prescribed PS (16 g protein; 249 kcal) and DS (18 g protein; 306 kcal) twice per day for 4 days in crossover sequence. ONS leftovers were weighed, and adherence calculated (% consumed). Palatability ratings were assessed with a 7-point Likert scale, and interviews were conducted with 9 older adults and 5 staff to explore product acceptability. Twenty-seven older people (mean age 80 years, 17 female) participated. Median daily PS intake (26.31% [IQR 10.23-48.02]) was significantly lower compared to DS (66.8% [IQR 26.29-75.37]), and texture of PS was significantly disliked compared to DS. There were no significant differences in the absolute volume consumed between products, and supplements did not replace normal dietary intake. Changes in physical ability and appetite, the hospital culture (e.g., staff attitudes), and palatability (e.g., thickness and taste) of products influenced ONS acceptability. To improve patient-centred nutritional care, participants requested a wider in-hospital range of food-based supplementation with natural ingredients and enhanced training for staff in nutritional care.
+
+## ダイエット・筋トレ Core-5. Adherence and Persistence with GLP-1-Based Therapies: International Real-World Evidence and the Role of Nutritional and Lifestyle Support-A Narrative Review.
+
+- Candidate bucket: Core
+- 事前スコア: 1
+- PMID: 42280404
+- DOI: 10.3390/nu18111761
+- Journal: Nutrients
+- PubDate: 2026-05-30
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280404/
+- OA URL: https://doi.org/10.3390/nu18111761
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Glucagon-like peptide-1 receptor agonists (GLP-1 RAs) have transformed type 2 diabetes mellitus (T2DM) and obesity care, with clinical trials demonstrating weight loss exceeding 15%. However, real-world effectiveness lags trial efficacy, largely owing to high discontinuation rates. We characterize the global persistence gap and propose a framework integrating Medical Nutrition Therapy (MNT) to improve adherence. We conducted a narrative review of real-world evidence from North America, Europe, Asia, and Latin America, synthesized with physiological, nutritional, and behavioral data to distinguish established contributors to discontinuation from strategies that remain partly extrapolated from related populations. Global persistence varies widely: from approximately 75-80% at 12 months in reimbursed T2DM cohorts (Sweden, Denmark) to below 10% in obesity-focused or high out-of-pocket-cost settings (Poland, Colombia), with intermediate rates in the United States and United Kingdom; in several cohorts, persistence falls below 15% by 24 months. The primary drivers are gastrointestinal intolerance and economic barriers. Meal size, dietary composition, and gastric-emptying effects influence gastrointestinal tolerability; inadequate protein intake during rapid weight loss raises concern for lean mass loss. Pharmacotherapy alone is unlikely to sustain long-term obesity management. Narrowing the persistence gap will require an integrated care model in which structured nutritional support-targeting protein intake, micronutrient density, and gastric-sparing feeding-is systematically offered rather than treated as an optional adjunct, while recognizing that most supporting evidence is extrapolated from primary trials in obesity and cardiometabolic disease rather than derived from GLP-1-specific randomized trials.
+
+## ダイエット・筋トレ Core-6. Cooking-Related Skills and Food Sustainability-Related Practices: A Systematic Review.
+
+- Candidate bucket: Core
+- 事前スコア: 0
+- PMID: 42279685
+- DOI: 10.3390/foods15111899
+- Journal: Foods (Basel, Switzerland)
+- PubDate: 2026-05-28
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42279685/
+- OA URL: https://doi.org/10.3390/foods15111899
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Cooking-related skills, encompassing practical food preparation skills and behaviors associated with food management, have been increasingly recognized as potential determinants of healthier and more sustainable dietary behaviors. However, the extent to which cooking skills and related practices contribute to food sustainability-related practices remains unclear. This systematic review aimed to assess the relationship between cooking-related skills and food sustainability-related practices. The literature search was conducted in PubMed/MEDLINE, Scopus and Embase and updated on 25 February 2026. Eligible studies included peer-reviewed studies examining associations between cooking-related skills (including cooking skills, home cooking, culinary education, and teaching kitchen interventions) and food sustainability-related practices (such as diet-related greenhouse gas emissions). Eligible studies included quantitative and qualitative designs conducted among adult populations. Risk of bias was assessed using design-specific appraisal tools. Results were reported according to PRISMA 2020 guidelines. Overall, 28 studies published between 2015 and 2026 (comprising 32,211 participants) were included. Of these, 16 studies were cross-sectional, 9 used pre-post intervention designs, and the remaining evidence included qualitative, mixed-methods, and randomized or cluster-randomized designs. Food waste outcomes were assessed in 19 studies, of which 15 reported favorable associations between cooking-related skills, home cooking, or cooking-based interventions and lower food waste or better food waste prevention behaviors. Diet quality outcomes were assessed in 12 studies and generally suggested favorable associations with Mediterranean diet adherence, fresh food consumption, and lower processed or ultra-processed food intake. Cooking-related skills may represent a promising behavioral pathway to promote healthier and more sustainable food practices. Nevertheless, stronger evidence from well-designed longitudinal and experimental studies is needed to clarify causal relationships and better inform public health strategies aimed at supporting sustainable food systems.
+
+## ダイエット・筋トレ Core-7. Effects of lower leg compression sleeves on muscle strength, elasticity, and architecture following eccentric contraction.
+
+- Candidate bucket: Core
+- 事前スコア: 0
+- PMID: 42264788
+- DOI: 10.1016/j.jbmt.2026.03.020
+- Journal: Journal of bodywork and movement therapies
+- PubDate: 2026-07
+- PublicationType: Journal Article; Randomized Controlled Trial
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42264788/
+- OpenAlex cited_by_count: 0
+
+Abstract:
+INTRODUCTION: Compression garments are commonly used during exercise to reduce fatigue and enhance performance, yet their effects, particularly in the context of eccentric exercise known to cause muscle damage and strength loss, remain unclear. This study examined the effect of wearing a compression sleeve (CS) on muscle strength following eccentric contraction and its influence on muscle elasticity and architecture.
+METHOD: Seventeen males participated in two identical exercise sessions, with and without CS (control trial [CON]), using a randomized crossover design. Maximum voluntary contraction (MVC) torque, shear modulus, muscle thickness, and fascicle length of the medial gastrocnemius were measured before and after the task. The protocol involved 10 sets of 10 maximal eccentric ankle plantar flexions, with 60 s rest between sets. To assess performance, peak power, total work, and muscle activity were measured and compared across conditions.
+RESULT: For all measured indices, neither main nor interaction effects of CS were statistically significant. MVC torque decreased significantly post-task (Compression: Pre 100.8 ± 20.1 Nm, Post 94.9 ± 20.1 Nm; Control: Pre 100.2 ± 18.1 Nm, Post 90.4 ± 17.1 Nm, p < 0.05). Shear modulus increased and fascicle length decreased significantly (p < 0.05), whereas muscle thickness remained unchanged.
+CONCLUSION: These findings suggest that external compression does not effectively mitigate the decline in muscle strength following eccentric contraction. Moreover, wearing a compression sleeve did not influence muscle elasticity or architecture. However, the absence of adverse effects supports its continued use as a safe strategy, although its performance-enhancing benefits remain inconclusive.
+
+## ダイエット・筋トレ Core-8. Weight Loss Outcomes Among MyFitnessPal Users: Behavioral and Dietary Predictors of Success.
+
+- Candidate bucket: Core
+- 事前スコア: -3
+- PMID: 42280408
+- DOI: 10.3390/nu18111766
+- Journal: Nutrients
+- PubDate: 2026-05-30
+- PublicationType: Journal Article
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280408/
+- OA URL: https://doi.org/10.3390/nu18111766
+- OpenAlex cited_by_count: 0
+
+Abstract:
+BACKGROUND/OBJECTIVES: This study aimed to evaluate the associations between MyFitnessPal usage, a widely used smartphone application, and weight management outcomes among U.S. adults, and to examine factors associated with clinically significant weight loss.
+METHODS: Data from 1359 users who set weight loss goals and maintained consistent app engagement over 120 days were analyzed. Demographic characteristics, app engagement patterns, and dietary intake were compared between users who did and did not achieve clinically significant weight loss.
+RESULTS: Nearly half (48.5%) of participants achieved clinically significant weight loss (≥5% of body weight), with success rates varying notably across age groups. App engagement was strongly associated with weight-loss success, with users maintaining detailed food logs achieving substantially higher success rates than the full cohort. Multivariable logistic regression identified daily app engagement as the significant predictor of weight-loss success, followed by lower carbohydrate intake, higher initial weight, and younger age.
+CONCLUSIONS: These findings indicate that greater engagement with MyFitnessPal is associated with favorable weight management outcomes and suggest that digital health platforms may be a scalable intervention for obesity prevention and treatment.
+
+## ダイエット・筋トレ Core-9. Emotional Eating and Abdominal Obesity: A Narrative Review of the Potential Mechanisms Underlying Their Relationship and Emerging Interventions for Their Management.
+
+- Candidate bucket: Core
+- 事前スコア: -8
+- PMID: 42280410
+- DOI: 10.3390/nu18111767
+- Journal: Nutrients
+- PubDate: 2026-05-30
+- PublicationType: Journal Article; Review
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42280410/
+- OA URL: https://doi.org/10.3390/nu18111767
+- OpenAlex cited_by_count: 0
+
+Abstract:
+Abdominal obesity (AO), assessed through waist circumference (WC), has become a validated complementary anthropometric marker for cardiometabolic risk assessment. Growing evidence suggests that emotional eating (EE), characterized by food intake in response to emotions rather than physiological hunger cues, may be linked to AO by promoting dysregulated eating patterns rich in palatable and energy-dense foods. This behavior may contribute, directly or indirectly, to excess visceral fat accumulation. An analysis of the current evidence was conducted to examine the psychological, physiological, neuroendocrine, and gut-brain axis mechanisms underlying the association between EE and AO, as well as to explore emerging interventions for its management. A narrative review of studies published between 2015 and 2025 was carried out using PubMed and Google Scholar. Search terms related to EE, AO, physiological mechanisms, hedonic hunger, diet quality, gut microbiota, and mindful eating were employed. The findings indicate that EE is associated with emotional dysregulation, chronic activation of the hypothalamic-pituitary-adrenal (HPA) axis, increased cortisol levels, low-grade inflammation, alterations in neurotransmitters such as dopamine, serotonin, and neuropeptide Y (NPY), as well as intestinal dysbiosis. These mechanisms favor impulsive consumption of palatable foods, visceral fat gain, and metabolic deterioration. Interventions such as mindful eating show positive effects in reducing EE; however, their anthropometric impact still requires further validation. In conclusion, EE represents an important behavioral factor in the development and maintenance of AO. Its management requires a multidimensional approach integrating emotional regulation, dietary modification, and psychobehavioral strategies.
+
+---
+
+
+## ネタ枠候補（一般受け・話題化しやすい論文）
+
+- この枠は、筋トレ・ダイエット・抗老化領域のうち、一般読者にも話題化しやすい候補です。
+- 臨床的重要論文Top12とは別軸です。採用する場合も、過大評価せず、研究デザインと限界を明記してください。
+- サプリ、動物実験、細胞実験、短期小規模研究は話題性があっても慎重に扱ってください。
+
+### Interesting-1. Exercise for Bone Mineral Density in People with Inflammatory Bowel Disease: A Systematic Review.
+- Genre: ダイエット・筋トレ
+- Interesting topic score: 11
+- Quality score: 13
+- PMID: 42278701
+- DOI: 10.3390/healthcare14111448
+- Journal: Healthcare (Basel, Switzerland)
+- Pub date: 2026-05-24
+- Publication types: Journal Article; Review
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42278701/
+- Abstract: BACKGROUND/OBJECTIVES: Inflammatory bowel disease (IBD) is associated with reduced areal bone mineral density (aBMD) and an increased risk of osteoporosis and fragility fractures. Although exercise improves bone health in the general population, its effects on aBMD in adults with IBD are unclear. This systematic review aimed to evaluate the effects of structured exercise interventions on aBMD in adults with IBD and to assess the certainty of the evidence.
+METHODS: We conducted a systematic review in accordance with Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) guidelines and the Cochrane Handbook. Searches were performed in CENTRAL, MEDLINE, Scopus, and Web of Science from inception to November 2025. We included randomized controlled trials comparing structured exercise interventions with usual care, no structured exercise or no intervention in participants aged 16 years and older with IBD. The primary outcome was aBMD; physical activity was a secondary outcome. Risk of bias was assessed using the Cochrane Risk of Bias tool (RoB 2.0), and certainty of evidence was evaluated using Grading of Recommendations Assessment, Development and Evaluation (GRADE). The review protocol was registered in International Prospective Register of Systematic Reviews (PROSPERO) CRD42024617200.
+RESULTS: Two randomized controlled trials ( = 164), both conducted exclusively in adults with Crohn's disease, met the inclusion criteria. Combined impact and resistance training for 6 months was associated with greater lumbar spine aBMD compared with usual care, while hip outcomes were not consistently improved. A 12-month low-impact exercise program compared with no intervention suggested greater trochanter aBMD gain among fully compliant participants, but intention-to-treat between-group differences were not statistically significant across skeletal sites. Due to heterogeneity in interventions and reporting, meta-analysis was not performed. Overall certainty of the evidence was very low because of methodological limitations and imprecision.
+CONCLUSIONS: We are very uncertain about the effect of exercise interventions on aBMD in adults with IBD. Current randomized evidence is limited to adults with Crohn's disease and is insufficient to determine the optimal exercise modality, frequency, intensity, progression, or loading characteristics for improving bone h
+
+### Interesting-2. Cooking-Related Skills and Food Sustainability-Related Practices: A Systematic Review.
+- Genre: ダイエット・筋トレ
+- Interesting topic score: 7
+- Quality score: 
+- PMID: 42279685
+- DOI: 10.3390/foods15111899
+- Journal: Foods (Basel, Switzerland)
+- Pub date: 2026-05-28
+- Publication types: Journal Article; Review
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42279685/
+- Abstract: Cooking-related skills, encompassing practical food preparation skills and behaviors associated with food management, have been increasingly recognized as potential determinants of healthier and more sustainable dietary behaviors. However, the extent to which cooking skills and related practices contribute to food sustainability-related practices remains unclear. This systematic review aimed to assess the relationship between cooking-related skills and food sustainability-related practices. The literature search was conducted in PubMed/MEDLINE, Scopus and Embase and updated on 25 February 2026. Eligible studies included peer-reviewed studies examining associations between cooking-related skills (including cooking skills, home cooking, culinary education, and teaching kitchen interventions) and food sustainability-related practices (such as diet-related greenhouse gas emissions). Eligible studies included quantitative and qualitative designs conducted among adult populations. Risk of bias was assessed using design-specific appraisal tools. Results were reported according to PRISMA 2020 guidelines. Overall, 28 studies published between 2015 and 2026 (comprising 32,211 participants) were included. Of these, 16 studies were cross-sectional, 9 used pre-post intervention designs, and the remaining evidence included qualitative, mixed-methods, and randomized or cluster-randomized designs. Food waste outcomes were assessed in 19 studies, of which 15 reported favorable associations between cooking-related skills, home cooking, or cooking-based interventions and lower food waste or better food waste prevention behaviors. Diet quality outcomes were assessed in 12 studies and generally suggested favorable associations with Mediterranean diet adherence, fresh food consumption, and lower processed or ultra-processed food intake. Cooking-related skills may represent a promising behavioral pathway to promote healthier and more sustainable food practices. Nevertheless, stronger evidence from well-designed longitudinal and experimental studies is needed to clarify causal relationships and better inform public health strategies aimed at supporting sustainable food systems.
+
+### Interesting-3. Dietary Inflammatory Index and Cardiovascular Disease Risk in Australian Adults: A Secondary Analysis of the OLIVAUS Trial.
+- Genre: ダイエット・筋トレ
+- Interesting topic score: 5
+- Quality score: 6
+- PMID: 42280376
+- DOI: 10.3390/nu18111732
+- Journal: Nutrients
+- Pub date: 2026-05-28
+- Publication types: Journal Article; Randomized Controlled Trial
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42280376/
+- Abstract: The Dietary Inflammatory Index (DII) is a commonly used tool to assess diet-related inflammation. Higher DII scores have been associated with increased cardiovascular disease risk in observational studies. However, evidence examining cardiovascular outcomes across DII levels in controlled settings remains limited. This secondary analysis examined cross-sectional differences and longitudinal associations between dietary inflammatory potential and cardiovascular outcomes in healthy Australian adults. This study used data from a double-blind randomised crossover trial, in which 50 participants consumed 60 mL/day of either extra virgin high-polyphenol olive oil (HPOO; 320 mg/kg) or low-polyphenol olive oil (LPOO; 86 mg/kg) across two 3-week intervention periods, separated by a 2-week washout. Anthropometric measures (weight, height, waist circumference, and BMI) and cardiovascular outcomes (i.e., blood pressure, lipids, oxidised LDL, and HDL cholesterol efflux capacity) were assessed at four timepoints. DII and energy-adjusted DII (E-DII) scores were derived from 3-day food diaries. Linear mixed-effects models were used to compare cardiovascular outcomes across repeated-measures DII tertiles (low, medium, and high), adjusting for intervention, period, sequence, age, sex and waist circumference. Forty-three participants completed this study. At baseline, BMI, waist circumference, systolic blood pressure, total cholesterol, and LDL differed significantly across DII tertiles ( < 0.05). However, over time, cardiovascular outcomes did not differ between medium or high versus low DII tertiles, and no significant time-by-tertile interactions were observed (all > 0.05). DII values remained stable, while E-DII showed modest within-person reductions during both intervention periods (mean reduction: 0.886 units vs. 0.596 units). : In this healthy cohort, there was no evidence of a consistent association between DII and short-term differences in cardiovascular outcomes across the intervention period. These findings should be interpreted cautiously, given the observational nature of DII groupings. Longer-duration studies with greater variation in dietary inflammatory potential are warranted to clarify the relationship between DII and cardiovascular health.
+
+
+---
+
+# RESEARCH MEMORY
+
+以下は過去に重要と評価された論文メモリです。
+本日の新規論文評価時には、過去トレンドとの差分、新規性、矛盾、継続テーマを考慮してください。
+
+# Research Memory: 全ジャンル統合
+
+これは過去に重要と評価された医学論文DBです。
+新規論文評価時には、過去トレンドとの比較、新規性、矛盾、進展を分析してください。
+
+注意：本ファイルは公開済み医学文献の研究・情報整理目的であり、個別患者への診療判断・治療推奨ではありません。
+
+## 1. Effects of maximal versus submaximal intended velocity resistance training on muscular fitness adaptations in older adults: A systematic review and meta-analysis.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 1
+- Score: 58
+- Importance level: 中
+- PMID: 42282453
+- DOI: 10.1016/j.smhs.2026.03.001
+- Journal: Sports medicine and health science
+- Pub year: 2026
+- Study design: システマティックレビュー・メタアナリシス（RCT15件・GRADE評価）
+- Population: 60歳以上の高齢者（16研究801例；うち15件が中等度の質のRCT）
+- Intervention: レジスタンストレーニング；意図的運動速度（マキシマル速度MaxV vs サブマキシマル速度SubmaxV）
+- Comparison: 対照（非運動）および運動速度・負荷強度・頻度のサブグループ比較
+- Main outcome: 筋量；筋力；機能的パフォーマンス（Hedges g）
+- Key findings: レジスタンストレーニングは筋量SMD0.16；筋力SMD0.55；機能的パフォーマンスSMD0.76を改善；筋量と筋力はSubmaxVが、機能的パフォーマンスはMaxVが優位；負荷強度・頻度・速度が効果を修飾
+- Importance reason: 高齢者のサルコペニア予防・運動処方を具体化できるSR/MAで、運動速度の最適化という実装可能な処方変数を示した点
+- Clinical relevance: 高齢者の筋量・筋力・身体機能を目的別に高める運動処方設計の参考になる
+- Novelty: 運動速度の意図（MaxV vs SubmaxV）でアウトカム別の最適化を示した点
+- Evidence strength: moderate
+- Safety notes: 非侵襲的運動介入で安全性懸念は小さいが、個別の運動禁忌評価は必要
+- Limitations: 対象15RCTが中等度の質；効果量は中程度；異質性あり（機能的パフォーマンスI二乗62%）
+- Practice change potential: 中（高齢者運動処方の方向性を支持）
+- Next action: 全文でサブグループ別の効果量・異質性・長期アドヒアランスを確認する
+- Watch keywords: resistance training velocity older adults, sarcopenia exercise prescription, maximal versus submaximal velocity, muscle mass strength meta-analysis
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42282453/
+- OA URL: https://doi.org/10.1016/j.smhs.2026.03.001
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42282453/, https://doi.org/10.1016/j.smhs.2026.03.001
+- Summary: 高齢者60歳以上を対象とした16研究801例のSR/MA。レジスタンストレーニングが筋量・筋力・機能的パフォーマンスを改善し、筋量筋力にはSubmaxV、機能にはMaxVが有利と示した。運動速度の最適化を提示。
+- Trend summary: 高齢者のサルコペニア予防における運動変数（速度・強度・頻度）の最適化研究が活発化している。
+- Future outlook: 速度・強度・頻度を直接比較する大規模RCTと長期機能アウトカムの検証が期待される。
+- Deep dive: true
+- Deep dive reason: 本日最大の臨床インパクト候補で、運動速度別の処方最適化がサルコペニア予防の実装判断に直結するため
+
+## 2. Optimal exercise modality and dose to improve depression in children and adolescents: a systematic review and Bayesian network meta-analysis.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 2
+- Score: 52
+- Importance level: 中
+- PMID: 42266770
+- DOI: 10.3389/fpsyg.2026.1847609
+- Journal: Frontiers in psychology
+- Pub year: 2026
+- Study design: システマティックレビュー・ベイズ流ネットワークメタアナリシス（RCT26件）
+- Population: 小児・思春期（26RCT・3507例）
+- Intervention: 運動様式別介入（グループトレーニング；有酸素運動；混合；心身運動）と用量
+- Comparison: 運動様式間および用量反応比較
+- Main outcome: 抑うつ症状（SMD）
+- Key findings: グループトレーニングSMD-1.58、有酸素運動SMD-0.60が有効；非線形用量反応で治療窓は360〜980 METs分／週、ピークは660 METs分／週
+- Importance reason: 小児思春期のうつに対する運動の至適様式と用量を定量化し、低用量開始・適度維持の処方戦略を支持する
+- Clinical relevance: 若年層のメンタルヘルス支援における運動処方の参考になる
+- Novelty: ベイズ流ネットワークメタで非線形用量反応の治療窓を推定した点
+- Evidence strength: moderate
+- Safety notes: 非侵襲的運動介入で安全性懸念は小さい
+- Limitations: 研究間異質性大；自己報告アウトカム；結果は慎重な解釈が必要
+- Practice change potential: 中（若年層の運動処方の方向性を支持）
+- Next action: 全文で各様式の確実性評価と異質性の要因を確認する
+- Watch keywords: exercise depression children adolescents, network meta-analysis dose-response, group training aerobic exercise, METs-min depression
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42266770/
+- OA URL: https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1847609/pdf
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42266770/, https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2026.1847609/pdf
+- Summary: 小児思春期26RCT・3507例のベイズ流ネットワークメタ。グループトレーニングと有酸素運動が抑うつ改善に有効で、治療窓は週360〜980 METs分と推定。異質性が大きく解釈は慎重に。
+- Trend summary: 若年層のメンタルヘルスに対する運動の至適様式・用量の定量化研究が進んでいる。
+- Future outlook: 高品質RCTによる様式別効果の確証と用量反応の精緻化が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 3. Frailty Trajectories and Incident Stroke Risk in People Aged 50 and Older: A Three-Cohort Prospective Analysis.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 3
+- Score: 50
+- Importance level: 中
+- PMID: 42284263
+- DOI: 10.1159/000552838
+- Journal: Neuroepidemiology
+- Pub year: 2026
+- Study design: 前向きコホート（3コホート統合・潜在クラス混合モデル・Cox）
+- Population: 50歳以上の成人（ELSA・HRS・CHARLSの3コホート19,666例）
+- Intervention: フレイル軌跡（deficit-accumulation frailty index）の分類
+- Comparison: Low軌跡群 vs Moderate群 vs Increasing-to-high群
+- Main outcome: 脳卒中発症（自己報告医師診断）
+- Key findings: 中央値追跡7.5年で1,131件の脳卒中；Low群比でModerate群HR2.05、Increasing-to-high群HR3.51；3コホートで方向一貫
+- Importance reason: フレイル軌跡という縦断指標が脳卒中発症と強く関連し、リスク層別化と予防対象同定に資する大規模前向き研究
+- Clinical relevance: 高齢者のフレイル経時モニタリングを脳卒中リスク評価に組み込む根拠
+- Novelty: 3つの代表的コホートを統合しフレイル軌跡と脳卒中を解析した点
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 自己報告の脳卒中診断；観察研究で因果不明；残存交絡
+- Practice change potential: 中（フレイルモニタリングのリスク層別化を支持）
+- Next action: フレイル改善介入が脳卒中発症を減らすかの介入研究を追跡する
+- Watch keywords: frailty trajectory stroke, deficit accumulation frailty index, three-cohort prospective, frailty monitoring risk
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42284263/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42284263/
+- Summary: 50歳以上19,666例・3コホート前向き解析。フレイル軌跡の悪化が脳卒中発症と強く関連（増加群HR3.51）。フレイル縦断モニタリングのリスク層別化価値を示す。
+- Trend summary: フレイルを静的指標でなく縦断軌跡で捉え、心血管・脳血管アウトカムと関連づける研究が拡大している。
+- Future outlook: フレイル改善介入による脳卒中予防効果の検証が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 4. Effect of Time-Restricted Eating on Metabolic Adaptation in Adults With Severe Obesity During Early Phase of Weight Loss.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 4
+- Score: 48
+- Importance level: 中
+- PMID: 42277575
+- DOI: 10.1111/jhn.70293
+- Journal: Journal of human nutrition and dietetics
+- Pub year: 2026
+- Study design: 無作為化比較試験（RCT）
+- Population: 重度肥満（BMI40超）の成人20〜60歳
+- Intervention: 時間制限食併用エネルギー制限（TRE＋ER；10時〜18時の摂食窓）
+- Comparison: 連続的エネルギー制限（CER）
+- Main outcome: 安静時代謝率（RMR）；早期適応的熱産生（AT）；ホルモン・食欲
+- Key findings: 1週後のRMRは両群同等；早期ATはTRE＋ER群で有意に小さい（-13対-83 kcal、p=0.038）；空腹感はCER群のみ増加
+- Importance reason: 重度肥満の減量初期に時間制限食が適応的熱産生をわずかに抑制する可能性を示したRCTだが、RMR差には至らず臨床的意義は限定的
+- Clinical relevance: 減量プログラム設計における時間制限食の位置づけの参考になる
+- Novelty: 重度肥満の減量初期における適応的熱産生をTREで評価した点
+- Evidence strength: moderate
+- Safety notes: 短期の代謝指標評価で安全性懸念は小さいが長期データなし
+- Limitations: 1週間の短期評価；RMR差なし；臨床的に意味ある長期効果は未確認
+- Practice change potential: 低〜中（長期検証待ち）
+- Next action: TREの長期体重・代謝アウトカムを検証するRCTを追跡する
+- Watch keywords: time-restricted eating obesity, adaptive thermogenesis weight loss, resting metabolic rate RCT, severe obesity diet
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42277575/
+- OA URL: https://doi.org/10.1111/jhn.70293
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42277575/, https://doi.org/10.1111/jhn.70293
+- Summary: 重度肥満100例のRCT。時間制限食併用が減量初期の適応的熱産生をわずかに抑制したが、1週後のRMRやホルモン・食欲には有意差なし。長期的臨床意義は要検証。
+- Trend summary: 時間制限食の代謝適応への影響を機序レベルで評価する研究が増えている。
+- Future outlook: 長期の体重維持と代謝アウトカムを評価する大規模RCTが期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 5. Changes in Sarcopenia and Incident Depression in Prospective Cohorts.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 5
+- Score: 46
+- Importance level: 中
+- PMID: 42278879
+- DOI: 10.3390/jcm15114015
+- Journal: Journal of clinical medicine
+- Pub year: 2026
+- Study design: 前向きコホート（CHARLS・AWGS2019基準・Cox）
+- Population: 中国の中高年（CHARLS；ベースライン2011年と2013年の変化を評価）
+- Intervention: サルコペニア状態の変化（非→可能性→サルコペニア）の評価
+- Comparison: 非サルコペニア維持群 vs 進行群 vs 回復群
+- Main outcome: 抑うつ発症（CESD-10≧10）
+- Key findings: サルコペニア進行群は抑うつリスク上昇（HR1.30）；回復群は持続サルコペニアより低リスク（HR0.65）
+- Importance reason: サルコペニアの動的変化と抑うつ発症の双方向的関連を示し、筋量改善の精神的ベネフィットを示唆
+- Clinical relevance: 高齢者の筋量管理を抑うつ予防の観点で位置づける参考になる
+- Novelty: 単回でなくサルコペニアの状態遷移と抑うつを評価した点
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 観察研究で因果不明；抑うつは尺度ベース；残存交絡
+- Practice change potential: 低〜中（仮説支持段階）
+- Next action: サルコペニア改善介入が抑うつを減らすかの介入研究を追跡する
+- Watch keywords: sarcopenia change depression, AWGS 2019 sarcopenia, CHARLS cohort, muscle mass mental health
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42278879/
+- OA URL: https://doi.org/10.3390/jcm15114015
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42278879/, https://doi.org/10.3390/jcm15114015
+- Summary: CHARLSコホートでサルコペニア状態の変化と抑うつ発症を解析。進行でHR1.30、回復でHR0.65と双方向的関連。筋量改善の精神的ベネフィットを示唆するが因果は不明。
+- Trend summary: サルコペニアを動的に捉え精神・身体アウトカムと関連づける研究が拡大している。
+- Future outlook: サルコペニア改善介入の抑うつ予防効果を検証する介入研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 6. Acute Cytokine Responses to High-Intensity Intermittent Exercise in Humans: A Systematic Review.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 6
+- Score: 38
+- Importance level: 中
+- PMID: 42278474
+- DOI: 10.3390/ijms27114950
+- Journal: International journal of molecular sciences
+- Pub year: 2026
+- Study design: システマティックレビュー（45研究・ナラティブ統合）
+- Population: 高強度間欠運動を行うヒト（45研究）
+- Intervention: 単回の高強度間欠運動セッション
+- Comparison: 運動前後のサイトカイン比較
+- Main outcome: 血中サイトカイン（IL-6・TNFα・IL-10等）の急性変化
+- Key findings: IL-6が最も一貫して上昇；TNFα・IL-10は文脈依存で混在；サンプリング窓・運動量・表現型が主な修飾因子
+- Importance reason: 高強度間欠運動の急性炎症・マイオカイン応答を体系化したが、代理指標中心で臨床アウトカムへの直結は弱い
+- Clinical relevance: 運動の炎症応答評価における方法論的留意点の参考になる
+- Novelty: 高強度間欠運動のサイトカイン応答を系統的に統合した点
+- Evidence strength: low
+- Safety notes: 特記なし
+- Limitations: ナラティブ統合；多くの研究でバイアス懸念（some concerns）；代理指標中心
+- Practice change potential: 低（機序・代理指標段階）
+- Next action: サンプリング窓・運動量を標準化した前向き研究を追跡する
+- Watch keywords: high-intensity intermittent exercise cytokine, IL-6 myokine exercise, acute inflammation exercise, TNF-alpha IL-10 exercise
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42278474/
+- OA URL: https://doi.org/10.3390/ijms27114950
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42278474/, https://doi.org/10.3390/ijms27114950
+- Summary: ヒト45研究の系統的レビュー。高強度間欠運動後はIL-6が一貫して上昇する一過性のマイオカイン優位炎症シグナルを示すが、他のサイトカインは文脈依存。代理指標中心で臨床意義は限定的。
+- Trend summary: 運動の急性炎症・マイオカイン応答を標準化して評価する研究が進んでいる。
+- Future outlook: サンプリングと運動量を標準化した前向き研究で応答の決定因子の確証が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 7. Comparison of count-based and clustering definitions of multimorbidity and their association with prevalence, health profiles, and mortality: A cohort study of UK Biobank participants.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 7
+- Score: 35
+- Importance level: 中
+- PMID: 42284367
+- DOI: 10.1371/journal.pmed.1004914
+- Journal: PLoS medicine
+- Pub year: 2026
+- Study design: コホート研究（UK Biobank・定義比較）
+- Population: UK Biobank参加者（474,397例、2006〜2010年）
+- Intervention: マルチモビディティの6つのカウント定義とクラスタリング定義の比較
+- Comparison: 定義間の有病率・健康プロファイル・死亡率の比較
+- Main outcome: 有病率；3年・10年死亡リスク；健康指標・血液指標
+- Key findings: 有病率は定義により1.0%〜35.3%と大きく変動；高閾値ほど重症プロファイルだが死亡リスクは必ずしも高くない；クラスタリングは低有病率高死亡群を同定
+- Importance reason: マルチモビディティの操作的定義が有病率・予後推定を大きく左右することを示し、加齢人口の研究・政策設計に影響する基盤的知見
+- Clinical relevance: マルチモビディティ研究の解釈と定義選択の参考になるが診療を直接変えるものではない
+- Novelty: 複数のカウント定義とクラスタリングを同一大規模コホートで横断比較した点
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: UK Biobankの選択バイアス；一部指標が横断的；一般化に限界
+- Practice change potential: 低〜中（研究・政策基盤向け）
+- Next action: 標準化されたマルチモビディティ定義の合意形成の動向を追跡する
+- Watch keywords: multimorbidity definition, UK Biobank mortality, clustering count-based multimorbidity, aging population health
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42284367/
+- OA URL: https://doi.org/10.1371/journal.pmed.1004914
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42284367/, https://doi.org/10.1371/journal.pmed.1004914
+- Summary: UK Biobank474,397例のコホート研究。マルチモビディティの定義により有病率が1.0〜35.3%と大きく変わり死亡リスクとの関連も異なることを示した。研究・政策設計の基盤的知見。
+- Trend summary: マルチモビディティの定義標準化と表現型分類の方法論研究が活発化している。
+- Future outlook: 合意された定義に基づく予後予測と介入標的の精緻化が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 8. Associations between dietary food categories, epigenetic age acceleration and low-grade inflammation in the Lifelines-DEEP cohort.
+
+- Date: 2026-06-14
+- Genre: 抗老化
+- Rank: 8
+- Score: 22
+- Importance level: 低
+- PMID: 42263547
+- DOI: 10.1016/j.clnu.2026.106703
+- Journal: Clinical nutrition
+- Pub year: 2026
+- Study design: 横断的コホート解析（メディエーション解析）
+- Population: Lifelines-DEEPコホート691例
+- Intervention: 食事の質・炎症性食事成分の評価（FFQ）
+- Comparison: 食事の質・食品カテゴリ別のエピジェネティック年齢加速（EAA）比較
+- Main outcome: EAA（PCPhenoAge・PCGrimAge・DunedinPACE）；低悪性度炎症の媒介
+- Key findings: 食事の質はPCGrimAge EAAと有意に関連；高エネルギー飲料・NOVA4食品で加速、野菜・茶で抑制；低悪性度炎症が部分媒介
+- Importance reason: 食事とエピジェネティック老化時計の関連を示し抗老化の生活習慣研究として話題性があるが、横断的で因果は示せない
+- Clinical relevance: 現時点では研究用途で診療を直接変えるものではない
+- Novelty: 次世代エピジェネティック時計と食品カテゴリの関連を媒介解析で評価した点
+- Evidence strength: low
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 横断的で因果不明；自己申告の食事評価；単一コホート
+- Practice change potential: 低（研究段階）
+- Next action: 食事介入によるEAA変化を検証する前向き・介入研究を追跡する
+- Watch keywords: epigenetic age acceleration diet, PCGrimAge food category, DunedinPACE inflammation, inflammaging nutrition
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42263547/
+- OA URL: https://doi.org/10.1016/j.clnu.2026.106703
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42263547/, https://doi.org/10.1016/j.clnu.2026.106703
+- Summary: Lifelines-DEEP691例の横断解析。食事の質がエピジェネティック年齢加速（特にPCGrimAge）と関連し、低悪性度炎症が部分的に媒介。話題性は高いが横断的で因果は不明。
+- Trend summary: 食事とエピジェネティック老化時計の関連を扱う抗老化栄養研究が拡大している。
+- Future outlook: 食事介入によるエピジェネティック時計変化を検証する介入研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 9. The Role of Epicardial and Visceral Fat in Severe Respiratory Infections: Associations With Adverse Outcomes.
+
+- Date: 2026-06-14
+- Genre: ダイエット・筋トレ
+- Rank: 9
+- Score: 20
+- Importance level: 低
+- PMID: 42267655
+- DOI: 10.1111/cob.70089
+- Journal: Clinical obesity
+- Pub year: 2026
+- Study design: 後ろ向き観察コホート（CT計測）
+- Population: COVID-19で集中治療を受けた重症患者（CT撮影例）
+- Intervention: 内臓脂肪（VAT）・心外膜脂肪（EAT）のCT計測
+- Comparison: 死亡群 vs 生存群；BMI層別
+- Main outcome: ICU死亡
+- Key findings: 死亡群でEAT面積が大；BMI30未満ではEAT増大が死亡リスク上昇と関連（OR1.06）
+- Importance reason: 非肥満の重症呼吸器感染患者でEATが予後マーカーとなりうる可能性を示すが、後ろ向き単一病態で一般化は限定的
+- Clinical relevance: 重症患者のリスク層別化の参考だが対象が限定的
+- Novelty: VATとEATを比較しEATの予後関連を示した点
+- Evidence strength: low
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 後ろ向き・観察；単一病態（COVID）；交絡残存
+- Practice change potential: 低（仮説生成段階）
+- Next action: EATの予後マーカーとしての前向き検証を追跡する
+- Watch keywords: epicardial fat respiratory infection, visceral fat COVID mortality, EAT prognostic marker, adipose tissue ICU outcome
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42267655/
+- OA URL: https://doi.org/10.1111/cob.70089
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42267655/, https://doi.org/10.1111/cob.70089
+- Summary: COVID-19重症患者の後ろ向きCT研究。心外膜脂肪面積が死亡群で大きく、非肥満例ではEAT増大が死亡リスクと関連（OR1.06）。後ろ向き単一病態で一般化は限定的。
+- Trend summary: 脂肪分布をCTで定量し重症感染症の予後と関連づける研究が増えている。
+- Future outlook: EATの予後マーカーとしての前向き検証と他病態への一般化が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 10. Postpartum haemorrhage: epidemiology, consequences, and missed opportunities.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 1
+- Score: 88
+- Importance level: 高
+- PMID: 42285119
+- DOI: 10.1016/S0140-6736(26)00902-5
+- Journal: Lancet
+- Pub year: 2026
+- Study design: レビュー（Lancet PPHシリーズ）
+- Population: 産後出血を生じうる全分娩女性
+- Intervention: PPHの疫学・予防・診断・治療の包括的整理とWHO新定義の提示
+- Comparison: 従来定義・従来管理
+- Main outcome: PPH発生・死亡・経済負担とWHO新定義
+- Key findings: 年間約2700万人にPPH、約4万3000人が死亡；膣分娩有病率12.6%、帝王切開30.9%；WHOが客観測定出血300mL＋血行動態異常または500mLへ再定義
+- Importance reason: PPHの定義・予防・診断を診療レベルで更新しうる主要レビュー
+- Clinical relevance: 周産期出血管理プロトコルとリスク評価の見直しに直結
+- Novelty: WHO新定義と見逃しの体系的整理
+- Evidence strength: moderate
+- Safety notes: レビューであり各推奨は一次データに遡及確認が必要
+- Limitations: 一次研究ではなく統合レビュー；推奨の根拠強度は項目差
+- Practice change potential: 高
+- Next action: WHO新定義の各国実装状況と客観的血液量測定の導入効果を追跡する
+- Watch keywords: postpartum haemorrhage WHO definition, PPH prevention uterotonic, blood loss measurement drape, maternal mortality PPH
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42285119/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42285119/, https://doi.org/10.1016/S0140-6736(26)00902-5
+- Summary: Lancetの産後出血レビュー。年間2700万人に発生し4万3000人が死亡。WHOが出血量＋血行動態に基づく新定義を提示し早期診断治療を重視。
+- Trend summary: PPHは客観的血液量測定と新定義による早期診断へと管理潮流が移行している。
+- Future outlook: WHO新定義の世界的実装とバンドル治療の標準化が進むと見込まれる。
+- Deep dive: true
+- Deep dive reason: WHOのPPH新定義と予防戦略は実臨床の出血管理を変えうるため深掘りが必要
+
+## 11. Prevention of postpartum haemorrhage: from evidence to implementation at scale.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 2
+- Score: 85
+- Importance level: 高
+- PMID: 42285117
+- DOI: 10.1016/S0140-6736(26)00903-7
+- Journal: Lancet
+- Pub year: 2026
+- Study design: レビュー（Lancet PPHシリーズ）
+- Population: 全分娩女性
+- Intervention: 子宮収縮薬を含むPPH予防戦略の整理
+- Comparison: 単剤対併用予防
+- Main outcome: PPH予防効果と副作用
+- Key findings: Cochraneネットワークメタ解析（122試験12万1931人）でオキシトシン＋ミソプロストールまたは＋エルゴメトリンが最も有効だが副作用増；単剤はオキシトシンまたはカルベトシンが有効で副作用最小、ルーチンには単剤予防を推奨
+- Importance reason: PPH予防の薬剤選択を根拠とともに整理し診療指針に直結
+- Clinical relevance: 分娩時のルーチン子宮収縮薬選択の標準化に寄与
+- Novelty: 予防の薬剤比較と実装課題を統合
+- Evidence strength: high
+- Safety notes: 併用は副作用増；単剤を基本とする
+- Limitations: レビューであり個別設定への一般化に注意
+- Practice change potential: 高
+- Next action: カルベトシン供給と低資源環境でのミソプロストール代替運用を追跡する
+- Watch keywords: PPH prophylaxis oxytocin, carbetocin, misoprostol, uterotonic network meta-analysis
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42285117/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42285117/, https://doi.org/10.1016/S0140-6736(26)00903-7
+- Summary: PPH予防レビュー。単剤オキシトシンまたはカルベトシンをルーチン推奨、併用は高リスク例で考慮。実装課題も整理。
+- Trend summary: 予防はリスク層別化と単剤標準化、供給確保へと向かっている。
+- Future outlook: 低資源環境での予防実装と熱安定カルベトシン普及が焦点。
+- Deep dive: 
+- Deep dive reason: 
+
+## 12. PGT-A is associated with a reduced live birth rate in routine practice: evidence from the UK ART register.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 3
+- Score: 82
+- Importance level: 高
+- PMID: 42275751
+- DOI: 10.1016/j.rbmo.2026.105747
+- Journal: Reproductive biomedicine online
+- Pub year: 2026
+- Study design: レジストリ後ろ向きコホート（HFEA、11万1975治療エピソード）
+- Population: 2014〜2018年に英国でIVFを受けた患者
+- Intervention: PGT-A実施
+- Comparison: PGTなし標準IVF
+- Main outcome: 生児獲得率・流産・移植到達率
+- Key findings: PGT-Aは初回（OR0.86）および累積（OR0.74）生児獲得率の低下と関連、流産は減少（累積OR0.64）、48%で初回移植に至らず
+- Importance reason: ルーチン診療下でのPGT-Aの有用性に疑問を投げる大規模レジストリ証拠
+- Clinical relevance: PGT-Aの適応とカウンセリングに直接影響
+- Novelty: 国家レジストリ規模でのルーチン実態評価
+- Evidence strength: moderate
+- Safety notes: 胚生検の侵襲・移植機会損失の論点
+- Limitations: 観察研究；2014〜2018年で技術が現行と異なる可能性；交絡残存
+- Practice change potential: 中〜高
+- Next action: 現行NGS・モザイク胚を含む前向きRCTと併せて解釈する
+- Watch keywords: PGT-A live birth rate, HFEA register, aneuploidy testing IVF, embryo biopsy outcome
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42275751/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42275751/, https://doi.org/10.1016/j.rbmo.2026.105747
+- Summary: 英国HFEAレジストリ解析でPGT-Aはルーチン診療下で累積生児獲得率を下げ流産を減らすと示した。全例適用の有用性に疑問。
+- Trend summary: PGT-Aは全例適用から特定層への限定運用へ議論が移行している。
+- Future outlook: 現行技術での前向きRCTとサブグループ別適応の精緻化が進む。
+- Deep dive: true
+- Deep dive reason: PGT-Aの全例適用に不利な大規模証拠で適応判断を変えうるため深掘りが必要
+
+## 13. IVF patient subgroups benefit from preimplantation genetic testing for aneuploidy: a prospective multicentre cohort study.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 4
+- Score: 75
+- Importance level: 高
+- PMID: 42275750
+- DOI: 10.1016/j.rbmo.2026.105776
+- Journal: Reproductive biomedicine online
+- Pub year: 2026
+- Study design: 前向き多施設コホート（260例、歴史的対照3060例）
+- Population: AMA・RIF・RPLのIVF患者
+- Intervention: PGT-A後の単一凍結胚移植
+- Comparison: 従来の単一凍結胚移植（歴史的対照）
+- Main outcome: 進行妊娠率・流産率・累積妊娠率
+- Key findings: AMA・RIF・RPLで進行妊娠オッズ改善（OR2.20/3.96/2.81）、流産減少、累積妊娠率は不変（RR0.94）
+- Importance reason: PGT-Aが特定サブグループでは有益と示し前述レジストリと対をなす
+- Clinical relevance: AMA・RIF・RPL患者への適応選択に有用
+- Novelty: サブグループ別の前向き評価
+- Evidence strength: moderate
+- Safety notes: 生検侵襲；累積では上乗せ効果なし
+- Limitations: 歴史的対照；観察デザイン；単施設要素
+- Practice change potential: 中
+- Next action: サブグループ別の無作為化エビデンスを追跡する
+- Watch keywords: PGT-A subgroup, advanced maternal age IVF, recurrent implantation failure, recurrent pregnancy loss
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42275750/
+- OA URL: https://doi.org/10.1016/j.rbmo.2026.105776
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42275750/, https://doi.org/10.1016/j.rbmo.2026.105776
+- Summary: 前向きコホートでPGT-AがAMA・RIF・RPLの進行妊娠率を改善し流産を減らすが累積妊娠率は不変と示した。特定層での有益性を示唆。
+- Trend summary: PGT-Aの価値はサブグループ別の選択的適用へと収束しつつある。
+- Future outlook: 層別化RCTによる適応基準の確立が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 14. Diagnosis and treatment of postpartum haemorrhage: a race against time.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 5
+- Score: 74
+- Importance level: 高
+- PMID: 42285120
+- DOI: 10.1016/S0140-6736(26)01031-7
+- Journal: Lancet
+- Pub year: 2026
+- Study design: レビュー（Lancet PPHシリーズ）
+- Population: PPHを生じた分娩女性
+- Intervention: 客観的血液量測定と初期対応バンドル
+- Comparison: 目測・遅延対応
+- Main outcome: 診断精度と臨床転帰
+- Key findings: 視覚的目測は膣分娩PPHの52%を見逃す（感度48%）；客観測定＋バンドルで早期診断と転帰改善；避けるべき6つの遅延を提示
+- Importance reason: PPHの早期診断・初期治療の実装枠組みを提示
+- Clinical relevance: 分娩室での測定・エスカレーション手順に直結
+- Novelty: 6つの遅延フレームワーク
+- Evidence strength: moderate
+- Safety notes: 難治性PPHは多職種で積極的蘇生が必要
+- Limitations: レビューであり実装効果は環境依存
+- Practice change potential: 高
+- Next action: calibrated drape等の客観測定導入効果を追跡する
+- Watch keywords: quantitative blood loss, PPH bundle, calibrated drape, first response treatment
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42285120/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42285120/, https://doi.org/10.1016/S0140-6736(26)01031-7
+- Summary: PPH診断治療レビュー。目測は半数を見逃すため客観測定とバンドル対応を推奨し、避けるべき6つの遅延を提示。
+- Trend summary: PPH管理は客観測定と標準化バンドルによる時間短縮へ向かう。
+- Future outlook: 助産師主導バンドルと早期エスカレーション基準の普及が進む。
+- Deep dive: 
+- Deep dive reason: 
+
+## 15. Vitamin D deficiency in pregnant women: obstetric implications and clinical management.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 6
+- Score: 66
+- Importance level: 中
+- PMID: 42261719
+- DOI: 10.5603/gpl.110273
+- Journal: Ginekologia polska
+- Pub year: 2026
+- Study design: システマティックレビュー（2020〜2025年）
+- Population: 妊婦
+- Intervention: ビタミンD補充（2000〜4000 IU/日）
+- Comparison: 欠乏（50nmol/L未満）
+- Main outcome: 妊娠合併症・胎児アウトカム
+- Key findings: 欠乏は妊娠高血圧腎症（OR0.65）・妊娠糖尿病（OR1.61）・早産（RR0.67）・SGA（RR0.61）と関連；2000〜4000 IU/日は安全有効
+- Importance reason: 妊婦のビタミンD評価と個別補充の妊婦健診への組み込みを支持
+- Clinical relevance: 高リスク妊婦のスクリーニングと補充の参考
+- Novelty: 近年エビデンスの統合更新
+- Evidence strength: moderate
+- Safety notes: 提示用量は安全域だが過量回避の管理が必要
+- Limitations: 効果指標の方向が混在；観察研究を含む統合
+- Practice change potential: 中
+- Next action: 至適血中濃度と用量を検証する大規模RCTを追跡する
+- Watch keywords: vitamin D pregnancy, preeclampsia supplementation, gestational diabetes vitamin D, preterm birth
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42261719/
+- OA URL: https://journals.viamedica.pl/ginekologia_polska/article/download/110273/89217
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42261719/, https://doi.org/10.5603/gpl.110273
+- Summary: 妊娠中ビタミンD欠乏のSR。欠乏は子癇前症・妊娠糖尿病・早産・SGAと関連、2000〜4000 IU/日が安全有効と整理。
+- Trend summary: 妊婦のビタミンD評価と個別補充の標準化への関心が続く。
+- Future outlook: 至適濃度と用量を定める大規模RCTが期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 16. Effect of vaginal estrogen supplementation for luteal phase support in the GnRH antagonist protocol on pregnancy outcomes for IVF/ICSI cycles: a randomized controlled trial.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 7
+- Score: 64
+- Importance level: 中
+- PMID: 42266463
+- DOI: 10.1093/hropen/hoag042
+- Journal: Human reproduction open
+- Pub year: 2026
+- Study design: 単施設RCT（518例）
+- Population: GnRHアンタゴニスト周期の正常反応IVF/ICSI患者
+- Intervention: プロゲステロン＋膣17βエストラジオール
+- Comparison: プロゲステロン単独
+- Main outcome: 進行妊娠率・生児獲得率
+- Key findings: 着床率・臨床妊娠率は改善するが、進行妊娠・生児獲得は有意改善せず
+- Importance reason: 黄体期エストロゲン追加の是非に良質なRCT証拠を提供
+- Clinical relevance: アンタゴニスト周期の黄体補充プロトコル判断に有用
+- Novelty: 膣エストラジオール追加を検証したRCT
+- Evidence strength: moderate
+- Safety notes: 非盲検デザインによるバイアスの可能性
+- Limitations: 単施設；非盲検；真のアウトカムで有意差なし
+- Practice change potential: 中
+- Next action: 生児獲得を主要評価とした多施設RCTを追跡する
+- Watch keywords: luteal phase support estrogen, GnRH antagonist IVF, endometrial receptivity, frozen embryo transfer
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42266463/
+- OA URL: https://doi.org/10.1093/hropen/hoag042
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42266463/, https://doi.org/10.1093/hropen/hoag042
+- Summary: アンタゴニスト周期の黄体補充に膣エストラジオールを追加したRCT。着床・臨床妊娠は改善も進行妊娠・生児獲得は有意差なし。
+- Trend summary: 黄体補充の最適化研究で代理指標と真のアウトカムの乖離が注目される。
+- Future outlook: 生児獲得を主要評価とした大規模試験が必要とされる。
+- Deep dive: 
+- Deep dive reason: 
+
+## 17. Impact of kangaroo mother care on maternal postpartum depression: a systematic review and meta-analysis of controlled trials.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 8
+- Score: 60
+- Importance level: 中
+- PMID: 42286120
+- DOI: 10.1038/s41390-026-05157-3
+- Journal: Pediatric research
+- Pub year: 2026
+- Study design: システマティックレビュー・メタアナリシス（13試験）
+- Population: 母児892例（KMC群439、対照453）
+- Intervention: カンガルーマザーケア（皮膚接触）
+- Comparison: 通常ケア
+- Main outcome: 産後うつ症状（SMD）
+- Key findings: KMCは抑うつ症状を有意に減少（SMD−0.58、95%CI−0.88〜−0.28、I²=78%）；低資源国・早産児でより大きい効果
+- Importance reason: 低コストで拡張可能な非薬物的産後うつ対策を支持
+- Clinical relevance: 周産期メンタルヘルス支援への組み込み根拠
+- Novelty: 対照試験の定量統合の更新
+- Evidence strength: moderate
+- Safety notes: 非薬物介入で安全性懸念は小さい
+- Limitations: 異質性大（I²=78%）；少数研究の影響大
+- Practice change potential: 中
+- Next action: 高資源環境での効果と標準化プロトコルを検証する研究を追跡する
+- Watch keywords: kangaroo mother care, postpartum depression, skin-to-skin contact, maternal mental health
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42286120/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42286120/, https://doi.org/10.1038/s41390-026-05157-3
+- Summary: KMCの産後うつ抑制メタアナリシス。抑うつを有意に減少（SMD−0.58）、低資源国と早産児で効果大。異質性は大きい。
+- Trend summary: 産後うつへの低コスト非薬物介入の評価が進んでいる。
+- Future outlook: 高資源環境での効果検証と実装研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 18. Oral functional limitation and long-term frailty trajectories: a 6-year cohort study of community-dwelling older adults in Korea.
+
+- Date: 2026-06-13
+- Genre: 抗老化
+- Rank: 9
+- Score: 58
+- Importance level: 中
+- PMID: 42283776
+- DOI: 10.1007/s11357-026-02353-1
+- Journal: GeroScience
+- Pub year: 2026
+- Study design: 前向きコホート研究（6年、約2731例）
+- Population: 地域在住の70〜84歳高齢者
+- Intervention: 口腔機能制限（咀嚼・嚥下・発音困難）の評価
+- Comparison: 口腔機能制限なし
+- Main outcome: フレイル発症と状態遷移
+- Key findings: 口腔機能制限はフレイル発症（調整HR1.53）と持続制限での後続リスク（HR1.42）に関連；robustからpre-frailへの進行も増加
+- Importance reason: 修正可能因子である口腔機能とフレイル進行の関連を大規模前向きで示した
+- Clinical relevance: 高齢者の口腔機能評価をフレイル予防に組み込む根拠
+- Novelty: 多状態モデルでフレイル遷移を解析
+- Evidence strength: moderate
+- Safety notes: 観察研究で介入安全性の論点なし
+- Limitations: 自己申告の口腔機能；観察研究で因果不明；残存交絡
+- Practice change potential: 中
+- Next action: 口腔機能改善介入のフレイル予防効果を検証する研究を追跡する
+- Watch keywords: oral function frailty, chewing frailty cohort, frailty transition older adults, KFACS cohort
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42283776/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42283776/
+- Summary: 韓国の地域高齢者6年コホート。口腔機能制限がフレイル発症（HR1.53）と進行に関連し、修正可能因子としての口腔機能の重要性を示す。
+- Trend summary: 口腔機能を含む修正可能因子とフレイルの関連研究が拡大している。
+- Future outlook: 口腔機能介入によるフレイル予防効果の介入研究が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 19. What is Weight Loss after Bariatric Surgery Expressed in Percentage Total Weight Loss (%TWL)? An Updated Systematic Review.
+
+- Date: 2026-06-13
+- Genre: ダイエット・筋トレ
+- Rank: 10
+- Score: 55
+- Importance level: 中
+- PMID: 42283772
+- DOI: 10.1007/s11695-026-08766-3
+- Journal: Obesity surgery
+- Pub year: 2026
+- Study design: システマティックレビュー（49研究）
+- Population: 代謝・減量手術を受けた患者
+- Intervention: OAGB・RYGB・SG
+- Comparison: 術式間比較
+- Main outcome: %TWL（総体重減少率）
+- Key findings: 4541件中49研究を統合；OAGBが2年以内のnadir %TWL最高、長期も高い傾向；RYGBとSGは同等
+- Importance reason: 減量手術の効果を%TWLで標準化横断比較した更新SRで術式選択の参考
+- Clinical relevance: 減量手術の術式選択とアウトカム説明の根拠
+- Novelty: 2021年SRをOAGB含め更新
+- Evidence strength: moderate
+- Safety notes: 合併症・再手術リスクは本SRの範囲外で別途評価要
+- Limitations: 研究間異質性大；長期データ限定；記述的統合
+- Practice change potential: 中
+- Next action: 合併症・再手術を含む長期標準化アウトカムを追跡する
+- Watch keywords: bariatric surgery %TWL, OAGB RYGB sleeve weight loss, metabolic surgery outcome, total weight loss systematic review
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42283772/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42283772/
+- Summary: 減量手術後の%TWLを49研究で更新統合。OAGBが短期長期とも高い傾向、RYGBとSGは同等。術式選択の情報源だが合併症は範囲外。
+- Trend summary: 減量手術の効果指標を%TWLで標準化し術式比較する動きが進む。
+- Future outlook: 合併症・再手術を含む長期標準化アウトカムの蓄積が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 20. Maternal TSH and FT4 changes during pregnancy as risk factors for preeclampsia in euthyroid women.
+
+- Date: 2026-06-13
+- Genre: 周産期
+- Rank: 11
+- Score: 52
+- Importance level: 中
+- PMID: 42272805
+- DOI: 10.3389/fendo.2026.1782499
+- Journal: Frontiers in endocrinology
+- Pub year: 2026
+- Study design: 大規模後ろ向き研究
+- Population: 甲状腺機能正常の妊婦
+- Intervention: 妊娠初期〜後期のTSH・FT4変化の評価
+- Comparison: 甲状腺機能変化のパターン別4群
+- Main outcome: 子癇前症およびその合併症
+- Key findings: ΔTSH上昇＋ΔFT4低下群で子癇前症リスク最高（aOR1.89）、早産aOR3.35、低出生体重aOR2.46；子癇前症の21.6%、重症例36.6%が同パターンに起因
+- Importance reason: 正常範囲内の甲状腺機能変化と子癇前症の関連を大規模に示した
+- Clinical relevance: 妊娠中の甲状腺機能モニタリングのリスク層別化に示唆
+- Novelty: 閾値効果と人口寄与危険度の解析
+- Evidence strength: moderate
+- Safety notes: 介入研究ではなくスクリーニング適否は未確立
+- Limitations: 後ろ向き；単一集団；代理指標寄り；因果不明
+- Practice change potential: 低〜中
+- Next action: 甲状腺機能変化に基づくリスク層別化の前向き検証を追跡する
+- Watch keywords: maternal TSH FT4, preeclampsia thyroid, euthyroid pregnancy, thyroid function pregnancy
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42272805/
+- OA URL: https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2026.1782499/pdf
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42272805/, https://doi.org/10.3389/fendo.2026.1782499
+- Summary: 正常甲状腺機能妊婦でΔTSH上昇＋ΔFT4低下が子癇前症と関連（aOR1.89）。人口寄与危険度も高いが後ろ向きで因果は不明。
+- Trend summary: 正常範囲内の甲状腺指標変化と妊娠合併症の関連研究が進む。
+- Future outlook: 甲状腺機能変化を用いたリスク層別化の前向き検証が期待される。
+- Deep dive: 
+- Deep dive reason: 
+
+## 21. Altered miRNA cargo of endometrial extracellular vesicles in patients with endometriosis: potential implications for pregnancy outcomes.
+
+- Date: 2026-06-13
+- Genre: 生殖
+- Rank: 12
+- Score: 48
+- Importance level: 中
+- PMID: 42282918
+- DOI: 10.1093/hropen/hoag040
+- Journal: Human reproduction open
+- Pub year: 2026
+- Study design: 前向き実験的比較研究（オルガノイド、子宮内膜症16例・健常15例）
+- Population: 子宮内膜症患者と健常女性の正所性子宮内膜
+- Intervention: 妊娠相分化後のEV miRNAプロファイリング
+- Comparison: 健常女性のEV miRNA
+- Main outcome: 差次発現miRNAと標的経路
+- Key findings: 8つのmiRNAが有意差（6下方・2上方）；妊娠障害関連の生物学的過程を調節しうる
+- Importance reason: 子宮内膜症関連の妊娠合併症機序の理解に寄与する基礎研究
+- Clinical relevance: 現時点では研究用途で診療を直接変えるものではない
+- Novelty: オルガノイドEV miRNAの妊娠相解析
+- Evidence strength: low
+- Safety notes: 基礎研究で臨床安全性の論点なし
+- Limitations: 小規模；in vitro；臨床アウトカム未検証
+- Practice change potential: 低
+- Next action: EV miRNAの着床・妊娠転帰への臨床的関連を検証する研究を追跡する
+- Watch keywords: endometriosis miRNA, extracellular vesicles endometrium, implantation biomarker, endometrial organoid
+- PubMed URL: https://pubmed.ncbi.nlm.nih.gov/42282918/
+- OA URL: https://doi.org/10.1093/hropen/hoag040
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42282918/, https://doi.org/10.1093/hropen/hoag040
+- Summary: 子宮内膜症患者の子宮内膜EVで8つのmiRNAが変化し妊娠障害関連経路を調節しうると示した基礎研究。臨床検証は今後の課題。
+- Trend summary: 子宮内膜症の妊娠合併症機序とEV miRNAバイオマーカー研究が拡大している。
+- Future outlook: EV miRNAの臨床的バイオマーカー化と着床機序解明が期待される。
+- Deep dive: 
+- Deep dive reason:
