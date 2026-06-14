@@ -1,0 +1,67 @@
+# DeepDive実行指示
+
+以下の深掘り対象論文キューを入力として、医学文献の深掘りレビューを実行してください。
+
+## 必須条件
+
+1. Dropboxコネクタは使わない。
+2. キュー内の各論文について、必ずWeb検索または学術検索で PMID、DOI、論文タイトルを検索する。
+3. PubMedページまたはDOI/出版社ページの少なくとも一方を確認するまで、レビュー本文を書き始めない。
+4. PubMed/DOI/出版社ページにアクセスできない場合は、レビューを作成せず「一次情報確認不能」として停止し、試したURL・検索語を列挙する。
+5. Dropboxキューだけを根拠にしたレビューは禁止。
+6. 確認済み情報と推測を明確に分ける。
+7. 95%CI、p値、NNT/NNH、サブグループ解析、GRADE、出版バイアス、介入期間、頻度、負荷強度などは推測で補わない。
+8. 個別患者への診療助言・治療推奨として書かない。
+
+## 出力構成
+
+各論文ごとに以下の構成で日本語出力してください。
+
+1. 一言サマリー
+2. 研究デザインと対象（PICO）
+3. 主要結果（効果量・95%CI・p値・NNT/NNH・異質性・GRADE等）
+4. 方法論的な強み
+5. 限界・バイアス・不確実性
+6. 既存エビデンスとの位置づけ
+7. 臨床的意味
+8. 実装・研究・発信への応用
+9. 残る疑問
+10. 一次情報リンク
+
+---
+
+# 深掘り対象論文キュー
+
+- 抽出バッチ: 20260614_081941
+- 件数: 1
+- 抽出条件: deep_dive=TRUE
+
+## 1. Effects of maximal versus submaximal intended velocity resistance training on muscular fitness adaptations in older adults: A systematic review and meta-analysis.
+
+- Genre: ダイエット・筋トレ
+- Rank: 1
+- Importance: 中
+- Score: 58
+- PMID: 42282453
+- DOI: 10.1016/j.smhs.2026.03.001
+- Journal: Sports medicine and health science
+- Pub year: 2026
+- Study design: システマティックレビュー・メタアナリシス（RCT15件・GRADE評価）
+- Population: 60歳以上の高齢者（16研究801例；うち15件が中等度の質のRCT）
+- Intervention: レジスタンストレーニング；意図的運動速度（マキシマル速度MaxV vs サブマキシマル速度SubmaxV）
+- Comparison: 対照（非運動）および運動速度・負荷強度・頻度のサブグループ比較
+- Main outcome: 筋量；筋力；機能的パフォーマンス（Hedges g）
+- Key findings: レジスタンストレーニングは筋量SMD0.16；筋力SMD0.55；機能的パフォーマンスSMD0.76を改善；筋量と筋力はSubmaxVが、機能的パフォーマンスはMaxVが優位；負荷強度・頻度・速度が効果を修飾
+- Importance reason: 高齢者のサルコペニア予防・運動処方を具体化できるSR/MAで、運動速度の最適化という実装可能な処方変数を示した点
+- Clinical relevance: 高齢者の筋量・筋力・身体機能を目的別に高める運動処方設計の参考になる
+- Novelty: 運動速度の意図（MaxV vs SubmaxV）でアウトカム別の最適化を示した点
+- Evidence strength: moderate
+- Safety notes: 非侵襲的運動介入で安全性懸念は小さいが、個別の運動禁忌評価は必要
+- Limitations: 対象15RCTが中等度の質；効果量は中程度；異質性あり（機能的パフォーマンスI二乗62%）
+- Practice change potential: 中（高齢者運動処方の方向性を支持）
+- Deep dive reason: 本日最大の臨床インパクト候補で、運動速度別の処方最適化がサルコペニア予防の実装判断に直結するため
+- Next action: 全文でサブグループ別の効果量・異質性・長期アドヒアランスを確認する
+- Watch keywords: resistance training velocity older adults, sarcopenia exercise prescription, maximal versus submaximal velocity, muscle mass strength meta-analysis
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42282453/
+- OA URL: https://doi.org/10.1016/j.smhs.2026.03.001
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42282453/, https://doi.org/10.1016/j.smhs.2026.03.001
