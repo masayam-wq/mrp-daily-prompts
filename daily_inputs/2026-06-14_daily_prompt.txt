@@ -1,3 +1,29 @@
+# Daily実行指示
+
+以下のDaily入力を用いて、医学論文のDaily選定・要約・JSON出力を実行してください。
+
+## 入力ファイル情報
+
+- Source: latest generated Drive text file
+- Source mode: script_property_file_id
+- File: 2026-06-14_daily_all_input_dropbox_source.txt
+- Folder: saved_file_id
+- Updated: 2026-06-14 18:53:44
+- Drive URL: https://drive.google.com/file/d/1EIukGsNWu3RPnHVy9LPqbQxycFVZJCAU/view?usp=drivesdk
+
+## 必須条件
+
+1. Dropboxコネクタは使わない。
+2. このURL本文に含まれる候補論文だけを対象にする。
+3. Core candidatesを優先し、Reserve candidatesは明らかに重要な場合のみ昇格する。
+4. ネタ枠候補は臨床重要論文Topとは別枠として最大3本まで扱う。
+5. 出力は human_readable_summary と machine_readable_summary の2部構成にする。
+6. machine_readable_summary はJSON配列のみ。Markdownコードブロック、コメント、Sourcesを付けない。
+7. JSONキーは clinical_impact_score と evidence_strength を使う。evidence_level は使わない。
+8. deep_dive は原則2本、非常に重要な日だけ最大3本。ネタ枠は原則 deep_dive=false。
+
+---
+
 # 2026-06-14 4ジャンル統合 医学論文スクリーニング
 
 このファイルは、PubMed/OpenAlexから自動取得した本日の医学論文候補を4ジャンル統合したものです。
@@ -1121,5 +1147,4 @@ CONCLUSION: The identified barriers and facilitators suggest that effective post
 - Trend summary: 子宮内膜症の妊娠合併症機序とEV miRNAバイオマーカー研究が拡大している。
 - Future outlook: EV miRNAの臨床的バイオマーカー化と着床機序解明が期待される。
 - Deep dive: 
-- Deep dive reason: 
-
+- Deep dive reason:
