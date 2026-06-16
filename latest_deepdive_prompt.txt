@@ -32,36 +32,66 @@
 
 # 深掘り対象論文キュー
 
-- 抽出バッチ: 20260614_081941
-- 件数: 1
+- 抽出バッチ: 20260616_072458
+- 件数: 2
 - 抽出条件: deep_dive=TRUE
 
-## 1. Effects of maximal versus submaximal intended velocity resistance training on muscular fitness adaptations in older adults: A systematic review and meta-analysis.
+## 1. Sex differences in brain glucose metabolism and Alzheimer's disease risk and progression
 
-- Genre: ダイエット・筋トレ
+- Genre: 抗老化
 - Rank: 1
-- Importance: 中
-- Score: 58
-- PMID: 42282453
-- DOI: 10.1016/j.smhs.2026.03.001
-- Journal: Sports medicine and health science
+- Importance: 高
+- Score: 82
+- PMID: 42271173
+- DOI: 10.1002/alz.71491
+- Journal: Alzheimer's & dementia : the journal of the Alzheimer's Association
 - Pub year: 2026
-- Study design: システマティックレビュー・メタアナリシス（RCT15件・GRADE評価）
-- Population: 60歳以上の高齢者（16研究801例；うち15件が中等度の質のRCT）
-- Intervention: レジスタンストレーニング；意図的運動速度（マキシマル速度MaxV vs サブマキシマル速度SubmaxV）
-- Comparison: 対照（非運動）および運動速度・負荷強度・頻度のサブグループ比較
-- Main outcome: 筋量；筋力；機能的パフォーマンス（Hedges g）
-- Key findings: レジスタンストレーニングは筋量SMD0.16；筋力SMD0.55；機能的パフォーマンスSMD0.76を改善；筋量と筋力はSubmaxVが、機能的パフォーマンスはMaxVが優位；負荷強度・頻度・速度が効果を修飾
-- Importance reason: 高齢者のサルコペニア予防・運動処方を具体化できるSR/MAで、運動速度の最適化という実装可能な処方変数を示した点
-- Clinical relevance: 高齢者の筋量・筋力・身体機能を目的別に高める運動処方設計の参考になる
-- Novelty: 運動速度の意図（MaxV vs SubmaxV）でアウトカム別の最適化を示した点
+- Study design: レビュー（総説）
+- Population: アルツハイマー病患者および健常老化女性・男性
+- Intervention: 脳グルコース代謝・ミトコンドリア機能の性差に関する統合レビュー
+- Comparison: 男女間の代謝脆弱性の比較
+- Main outcome: 脳グルコース低代謝の性差・発症タイミング・閉経・APOE ε4との関連
+- Key findings: 女性でミトコンドリアグルコース代謝低下がより急峻で病理連動的；閉経後およびAPOE ε4保有者で脆弱性が増強；代謝精密医療介入の優先標的として女性が浮上
+- Importance reason: 産婦人科医として更年期管理と認知症予防を接続する実践的根拠。ADの性差の生物学的機序を包括的に整理した主要レビュー
+- Clinical relevance: 更年期管理・APOE ε4スクリーニングと認知症予防の連携を検討する際の参照情報となる
+- Novelty: 脳グルコース輸送・解糖・ミトコンドリア機能の性依存的制御をAD病理と統合した包括的枠組みの提示
 - Evidence strength: moderate
-- Safety notes: 非侵襲的運動介入で安全性懸念は小さいが、個別の運動禁忌評価は必要
-- Limitations: 対象15RCTが中等度の質；効果量は中程度；異質性あり（機能的パフォーマンスI二乗62%）
-- Practice change potential: 中（高齢者運動処方の方向性を支持）
-- Deep dive reason: 本日最大の臨床インパクト候補で、運動速度別の処方最適化がサルコペニア予防の実装判断に直結するため
-- Next action: 全文でサブグループ別の効果量・異質性・長期アドヒアランスを確認する
-- Watch keywords: resistance training velocity older adults, sarcopenia exercise prescription, maximal versus submaximal velocity, muscle mass strength meta-analysis
-- PubMed: https://pubmed.ncbi.nlm.nih.gov/42282453/
-- OA URL: https://doi.org/10.1016/j.smhs.2026.03.001
-- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42282453/, https://doi.org/10.1016/j.smhs.2026.03.001
+- Safety notes: レビューであり直接的な安全性シグナルなし
+- Limitations: 総説のため一次データ非収集；細胞種・脳領域・病期ごとのエビデンスギャップが残存
+- Practice change potential: 中（更年期・APOE ε4層への介入試験設計の方向性を提示）
+- Deep dive reason: 産婦人科医・病院経営者として更年期診療と認知症予防の接点を精査する必要があり、ADの女性特異的代謝脆弱性は診療・患者教育双方に直結するため
+- Next action: 閉経後女性・APOE ε4保有者を対象にしたグルコース代謝・認知機能改善介入試験の進展を追跡する
+- Watch keywords: sex differences Alzheimer brain metabolism, menopause cognitive aging, APOE e4 female risk, mitochondrial glucose AD, metabolic precision medicine dementia
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42271173/
+- OA URL: https://doi.org/10.1002/alz.71491
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42271173/, https://doi.org/10.1002/alz.71491
+
+## 2. Association of Postpartum Depression With Phenotypic Biological Aging and Aging-Related Diseases in Midlife Women
+
+- Genre: 周産期
+- Rank: 8
+- Importance: 中
+- Score: 48
+- PMID: 42265949
+- DOI: 10.1111/jog.70363
+- Journal: The journal of obstetrics and gynaecology research
+- Pub year: 2026
+- Study design: 横断的コホート解析（UK Biobank、n=38,551）
+- Population: UK Biobankの経産婦38,551例
+- Intervention: 産後うつ（PPD）既往の評価
+- Comparison: PPD既往あり vs なし
+- Main outcome: PhenoAge・KDMAge（表現型生物学的年齢）加速；老化関連疾患負担
+- Key findings: PPD既往女性でPhenoAge BАГおよびKDMAge BАГが有意に高い；老化関連疾患（69疾患分類）の保有確率も高い；社会経済的層別でも一貫
+- Importance reason: 産後うつが長期的な生物学的老化加速と疾患負担増大に関連するという大規模横断エビデンス
+- Clinical relevance: 周産期メンタルヘルスケアの長期的全身健康への影響を患者教育・政策立案に反映できる
+- Novelty: PPDとフェノタイプ生物学的老化時計の関連をUK Biobank規模で評価した初期研究
+- Evidence strength: moderate
+- Safety notes: 横断研究で逆因果の可能性が残る；観察研究で因果不明
+- Limitations: 横断的で因果不明；PPDは自己申告；測定タイミングの不一致
+- Practice change potential: 低〜中（産後うつの長期管理の重要性を強調する根拠）
+- Deep dive reason: 産婦人科医として産後うつの長期的全身影響を精査する意義が高く、UK Biobank規模の横断データとして参照価値が高いため
+- Next action: PPD治療が長期的生物学的老化指標を改善するかを検証する前向き研究を追跡する
+- Watch keywords: postpartum depression biological aging, PPD PhenoAge UK Biobank, midlife women aging trajectory, maternal mental health longevity
+- PubMed: https://pubmed.ncbi.nlm.nih.gov/42265949/
+- OA URL: 
+- Source URLs: https://pubmed.ncbi.nlm.nih.gov/42265949/, https://doi.org/10.1111/jog.70363
